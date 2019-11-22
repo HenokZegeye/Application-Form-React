@@ -1,15 +1,17 @@
 import React from "react";
 import "./App.css";
-import { Button, Checkbox } from "antd";
+import Welcome from "./components/Welcome";
+import ApplicationForm from "./components/ApplicationForm";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div>
-      <Button type="primary" htmlType="submit">
-        Save And Continue
-      </Button>
-      <Button type="primary">Save And Continue</Button>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" component={Welcome} exact />
+        <Route path="/application-form" component={ApplicationForm} exact />
+      </Switch>
+    </BrowserRouter>
   );
 }
 
