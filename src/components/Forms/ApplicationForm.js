@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Logo from "../Logo";
 import { Steps, Col, Row } from "antd";
 import ProgramSelection from "./ProgramSelection";
+import DocumentsUpload from "./DocumentsUpload";
 const { Step } = Steps;
 
 const steps = [
@@ -40,7 +41,8 @@ export class ApplicationForm extends Component {
     switch (current) {
       case 0:
         return <ProgramSelection />;
-        break;
+      case 1:
+        return <DocumentsUpload />;
       default:
         break;
     }
