@@ -4,6 +4,7 @@ import { Steps, Col, Row } from "antd";
 import ProgramSelection from "./ProgramSelection";
 import DocumentsUpload from "./DocumentsUpload";
 import ContactInfo from "./ContactInfo";
+import Confirm from "./Confirm";
 const { Step } = Steps;
 
 const steps = [
@@ -46,6 +47,8 @@ export class ApplicationForm extends Component {
         return <DocumentsUpload />;
       case 2:
         return <ContactInfo />;
+      case 4:
+        return <Confirm />;
       default:
         break;
     }
