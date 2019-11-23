@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Logo from "./Logo";
+import Logo from "../Logo";
 import { Steps, Col } from "antd";
 const { Step } = Steps;
 
