@@ -65,10 +65,10 @@ export class ApplicationForm extends Component {
         <Row>
           <div className="container">
             <h2>Steps to Apply to BITS College</h2>
-            <Col span={12}>
+            <Col span={7}>
               <div>{this.renderSteps(current)}</div>
             </Col>
-            <Col span={12}>
+            <Col span={12} offset={5}>
               <div>{this.selectComponent(current)}</div>
             </Col>
           </div>
