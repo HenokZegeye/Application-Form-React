@@ -1,1 +1,12 @@
+@import "/ginora-sans-cufonfonts-webfont/style.css";
 @import "~antd/dist/antd.css";
+
+body {
+  font-family: "Sans" !important;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Ginora Sans Light" !important;
+}

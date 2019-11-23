@@ -7,11 +7,9 @@ export class Welcome extends Component {
   render() {
     return (
       <div>
-        <div>
+        <div className="text-center">
           <Logo />
-          <h1 style={{ fontWeight: "bold" }}>
-            Welcome to BITS College's Online Application Service!
-          </h1>
+          <h1>Welcome to BITS College's Online Application Service!</h1>
           <h2>
             If You Want To Continue Please Click
             <span>
