@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import Welcome from "./components/Welcome";
-import ApplicationForm from "./components/ApplicationForm";
+import ApplicationForm from "./components/Forms/ApplicationForm";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 function App() {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Logo from "../Logo";
-import { Steps, Col } from "antd";
+import { Steps, Col, Row } from "antd";
+import ProgramSelection from "./ProgramSelection";
 const { Step } = Steps;
 
 const steps = [
@@ -21,7 +22,7 @@ export class ApplicationForm extends Component {
 
   renderSteps = current => {
     return (
-      <Col md="3">
+      <Col>
         <Steps
           onChange={this.onChange}
           direction="vertical"
@@ -35,9 +36,19 @@ export class ApplicationForm extends Component {
       </Col>
     );
   };
+  selectComponent = current => {
+    switch (current) {
+      case 0:
+        return <ProgramSelection />;
+        break;
+      default:
+        break;
+    }
+  };
 
   render() {
     const { current } = this.state;
+    console.log("current", this.state.current);
     return (
       <div>
         <div className="text-center">
@@ -46,10 +57,17 @@ export class ApplicationForm extends Component {
             To Learn More About What We Offer Visit Our <a href="#">Website</a>
           </h3>
         </div>
-        <div className="container">
-          <h2>Steps to Apply to BITS College</h2>
-          <div>{this.renderSteps(current)}</div>
-        </div>
+        <Row>
+          <div className="container">
+            <h2>Steps to Apply to BITS College</h2>
+            <Col span={12}>
+              <div>{this.renderSteps(current)}</div>
+            </Col>
+            <Col span={12}>
+              <div>{this.selectComponent(current)}</div>
+            </Col>
+          </div>
+        </Row>
       </div>
     );
   }
