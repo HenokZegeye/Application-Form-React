@@ -63,7 +63,7 @@ export class DocumentsUpload extends Component {
           <Row>
             <Col span={12}>
               <FormItem label="EHEECE(Grade 12 national exam result)">
-                {getFieldDecorator("g12NationalExam_file_list", {
+                {getFieldDecorator("grade12_National_Exam_Result", {
                   rules: [{ required: true }]
                 })(
                   <Upload
@@ -80,6 +80,11 @@ export class DocumentsUpload extends Component {
                     )}
                   </Upload>
                 )}
+              </FormItem>
+              <FormItem wrapperCol={{ span: 12, offset: 6 }}>
+                <Button type="primary" htmlType="submit">
+                  Continue
+                </Button>
               </FormItem>
             </Col>
           </Row>

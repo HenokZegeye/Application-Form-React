@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-//import { Row, Col, Form, Button, message, Menu, Dropdown, Icon } from "antd";
 import { Form, Select, Row, Col, Button } from "antd";
 
 const FormItem = Form.Item;
@@ -108,11 +107,11 @@ export class ProgramSelection extends Component {
                   </div>
                 )}
               </FormItem>
-              <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
+              <FormItem wrapperCol={{ span: 12, offset: 6 }}>
                 <Button type="primary" htmlType="submit">
                   Continue
                 </Button>
-              </Form.Item>
+              </FormItem>
             </Form>
           </Col>
         </Row>
