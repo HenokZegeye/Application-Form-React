@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Select, Row, Col, Button, Input } from "antd";
+import { Form, Row, Col, Button, Input } from "antd";
 const FormItem = Form.Item;
 export class ContactInfo extends Component {
   handleSubmit = e => {

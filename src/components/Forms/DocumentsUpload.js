@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Upload, Icon, message, Button, Row, Col, Form, Modal } from "antd";
+import { Upload, Icon, message, Button, Row, Col, Form } from "antd";
 const FormItem = Form.Item;
 
 export class DocumentsUpload extends Component {
