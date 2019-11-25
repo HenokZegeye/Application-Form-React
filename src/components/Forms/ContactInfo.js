@@ -22,9 +22,18 @@ export class ContactInfo extends Component {
 
         applicant = applicant.payload;
         console.log("payloadd", payload);
-        LModel.create("applicants", payload).then(response => {
-          console.log("response from create", response);
-        });
+        LModel.create("applicants", payload)
+          .then(response => {
+            if (response.success) {
+              console.log("response from create", response);
+            } else {
+              console.log("Email has already been taken");
+            }
+          })
+          .catch(error => {
+            console.log("The error is ", error);
+            this.error("Email has already been taken");
+          });
       }
     });
   };
