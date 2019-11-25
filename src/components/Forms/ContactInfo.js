@@ -17,8 +17,10 @@ export class ContactInfo extends Component {
       if (err) {
         this.error(ResponseCodes.MSG_VALIDATION_ERROR);
       } else {
+        let applicant = {};
         let payload = values;
 
+        applicant = applicant.payload;
         console.log("payloadd", payload);
         LModel.create("applicants", payload).then(response => {
           console.log("response from create", response);
@@ -36,11 +38,11 @@ export class ContactInfo extends Component {
           <Col span={24}>
             <Form layout="vertical" onSubmit={this.handleSubmit}>
               <FormItem label="Your Name">
-                {getFieldDecorator("firstName", {
+                {getFieldDecorator("applicant[first_name]", {
                   rules: [
                     {
                       required: true,
-                      message: "Please enter first name"
+                      message: "Please enter your name"
                     },
                     {
                       type: "string",
@@ -51,7 +53,7 @@ export class ContactInfo extends Component {
                 })(<Input placeholder="Your Name" />)}
               </FormItem>
               <FormItem label="Father Name">
-                {getFieldDecorator("fatherName", {
+                {getFieldDecorator("applicant[middle_name]", {
                   rules: [
                     {
                       required: true,
@@ -66,7 +68,7 @@ export class ContactInfo extends Component {
                 })(<Input placeholder="Father Name" />)}
               </FormItem>
               <FormItem label="Grandfather Name">
-                {getFieldDecorator("grandfatherName", {
+                {getFieldDecorator("applicant[last_name]", {
                   rules: [
                     {
                       required: true,
@@ -83,7 +85,7 @@ export class ContactInfo extends Component {
               <Row gutter={4}>
                 <Col span={12}>
                   <FormItem label="Email address" labelAlign="left">
-                    {getFieldDecorator("email", {
+                    {getFieldDecorator("applicant[email]", {
                       rules: [
                         {
                           required: true,
@@ -99,7 +101,7 @@ export class ContactInfo extends Component {
                 </Col>
                 <Col span={12}>
                   <FormItem label="Phone Number" labelAlign="left">
-                    {getFieldDecorator("phoneNumber", {
+                    {getFieldDecorator("applicant[phone_number]", {
                       rules: [
                         {
                           required: true,

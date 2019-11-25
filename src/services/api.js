@@ -7,7 +7,8 @@ export default class LModel {
   static create(pluralName, data, filter = null) {
     let url = API_BASE_URL + pluralName;
     if (filter) url += "?" + filter;
-
+    console.log("from api service data", data);
+    console.log("from api service url", url);
     return new Promise(function(resolve, reject) {
       axios
         .post(url, data)
