@@ -1,12 +1,28 @@
 import React, { Component } from "react";
-import { Form, Row, Col, Button, Input } from "antd";
+import { Form, Row, Col, Button, Input, message } from "antd";
+import ResponseCodes from "../../utils/ResponseCodes";
+import LModel from "../../services/api";
 const FormItem = Form.Item;
 export class ContactInfo extends Component {
+  success = msg => {
+    message.success(msg);
+  };
+  error = msg => {
+    message.error(msg);
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log("Received values of form: ", values);
+      if (err) {
+        this.error(ResponseCodes.MSG_VALIDATION_ERROR);
+      } else {
+        let payload = values;
+
+        console.log("payloadd", payload);
+        LModel.create("applicants", payload).then(response => {
+          console.log("response from create", response);
+        });
       }
     });
   };

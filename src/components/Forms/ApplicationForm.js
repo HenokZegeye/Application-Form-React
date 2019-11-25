@@ -5,6 +5,7 @@ import ProgramSelection from "./ProgramSelection";
 import DocumentsUpload from "./DocumentsUpload";
 import ContactInfo from "./ContactInfo";
 import Confirm from "./Confirm";
+import LModel from "../../services/api";
 const { Step } = Steps;
 
 const steps = [
@@ -16,8 +17,16 @@ const steps = [
 ];
 export class ApplicationForm extends Component {
   state = {
-    current: 0
+    current: 0,
+    contactInformation: {}
   };
+
+  componentDidMount() {
+    LModel.find("applicants", "1").then(response => {
+      console.log("Responseeeeee", response);
+    });
+  }
+
   onChange = current => {
     console.log("onChange:", current);
     this.setState({ current });
