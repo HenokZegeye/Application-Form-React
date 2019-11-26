@@ -27,7 +27,7 @@ export class ContactInfo extends Component {
             if (response.success) {
               console.log("response from create", response);
             } else {
-              console.log("Email has already been taken");
+              console.log("Unable to create contact information");
             }
           })
           .catch(error => {
