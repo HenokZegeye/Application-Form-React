@@ -36,59 +36,52 @@ export class DocumentsUpload extends Component {
     return (
       <div>
         <h4 className="pt-4">Upload neccessary documents</h4>
-        <Form onSubmit={this.handleSubmit}>
-          <Row>
-            <Col span={12}>
-              <FormItem label="Highschool Transcript">
-                {getFieldDecorator("transcript", {
-                  rules: [{ required: true }]
-                })(
-                  <Upload
-                    name="file"
-                    fileList={this.state.transcript_file_list}
-                    showUploadList={this.state.uploadList}
-                    beforeUpload={this.beforeUpload}
-                    accept={[".pdf", "jpeg", "jpg"]}
-                  >
-                    {this.state.transcript_file_list.length >= 1 ? null : (
-                      <Button>
-                        <Icon type="upload" /> Click to Upload
-                      </Button>
-                    )}
-                  </Upload>
-                )}
-              </FormItem>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <FormItem label="EHEECE(Grade 12 national exam result)">
-                {getFieldDecorator("grade12_National_Exam_Result", {
-                  rules: [{ required: true }]
-                })(
-                  <Upload
-                    name="file"
-                    fileList={this.state.g12NationalExam_file_list}
-                    showUploadList={this.state.uploadList}
-                    beforeUpload={this.beforeUpload}
-                    accept={[".pdf", "jpeg", "jpg"]}
-                  >
-                    {this.state.g12NationalExam_file_list.length >= 1 ? null : (
-                      <Button>
-                        <Icon type="upload" /> Click to Upload
-                      </Button>
-                    )}
-                  </Upload>
-                )}
-              </FormItem>
-              <FormItem wrapperCol={{ span: 12, offset: 6 }}>
-                <Button type="primary" htmlType="submit">
-                  Continue
-                </Button>
-              </FormItem>
-            </Col>
-          </Row>
-        </Form>
+        <Row>
+          <Col span={12}>
+            <FormItem label="Highschool Transcript">
+              {getFieldDecorator("highschool_transcript", {
+                rules: [{ required: true }]
+              })(
+                <Upload
+                  name="file"
+                  fileList={this.state.transcript_file_list}
+                  showUploadList={this.state.uploadList}
+                  beforeUpload={this.beforeUpload}
+                  accept={[".pdf", "jpeg", "jpg"]}
+                >
+                  {this.state.transcript_file_list.length >= 1 ? null : (
+                    <Button>
+                      <Icon type="upload" /> Click to Upload
+                    </Button>
+                  )}
+                </Upload>
+              )}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={12}>
+            <FormItem label="EHEECE(Grade 12 national exam result)">
+              {getFieldDecorator("grade12_National_Exam_Result", {
+                rules: [{ required: true }]
+              })(
+                <Upload
+                  name="file"
+                  fileList={this.state.g12NationalExam_file_list}
+                  showUploadList={this.state.uploadList}
+                  beforeUpload={this.beforeUpload}
+                  accept={[".pdf", "jpeg", "jpg"]}
+                >
+                  {this.state.g12NationalExam_file_list.length >= 1 ? null : (
+                    <Button>
+                      <Icon type="upload" /> Click to Upload
+                    </Button>
+                  )}
+                </Upload>
+              )}
+            </FormItem>
+          </Col>
+        </Row>
       </div>
     );
   }

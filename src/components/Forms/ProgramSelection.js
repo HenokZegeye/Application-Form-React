@@ -94,5 +94,4 @@ export class ProgramSelection extends Component {
   }
 }
 
-const ProgramSelectionForm = Form.create({})(ProgramSelection);
 export default ProgramSelection;

@@ -3,6 +3,7 @@ import { Steps, Button, message, Form, Col, Row } from "antd";
 import Logo from "../Logo";
 import ProgramSelection from "./ProgramSelection";
 import ContactInfo from "./ContactInfo";
+import DocumentsUpload from "./DocumentsUpload";
 const { Step } = Steps;
 
 const steps = [
@@ -13,6 +14,18 @@ const steps = [
   "Confirm"
 ];
 
+const fields = {
+  Select_Program: ["programType", "fieldOfStudy", "modeOfAttendance"],
+  Upload_Document: ["highschool_transcript", "grade12_National_Exam_Result"],
+  Contact_Info: [
+    "applicant[first_name]",
+    "applicant[middle_name]",
+    "applicant[last_name]",
+    "applicant[email]",
+    "applicant[phone_number]"
+  ]
+};
+
 export class Main extends Component {
   state = {
     current: 0
@@ -20,7 +33,27 @@ export class Main extends Component {
   next() {
     if (this.state.current == 0) {
       this.props.form.validateFieldsAndScroll(
-        ["programType", "fieldOfStudy", "modeOfAttendance", "test"],
+        fields["Select_Program"],
+        (err, values) => {
+          if (!err) {
+            const current = this.state.current + 1;
+            this.setState({ current });
+          }
+        }
+      );
+    } else if (this.state.current == 1) {
+      this.props.form.validateFieldsAndScroll(
+        fields["Upload_Document"],
+        (err, values) => {
+          if (!err) {
+            const current = this.state.current + 1;
+            this.setState({ current });
+          }
+        }
+      );
+    } else if (this.state.current == 2) {
+      this.props.form.validateFieldsAndScroll(
+        fields["Contact_Info"],
         (err, values) => {
           if (!err) {
             const current = this.state.current + 1;
@@ -32,7 +65,6 @@ export class Main extends Component {
   }
   prev() {
     const current = this.state.current - 1;
-    // console.log(current)
     this.setState({ current });
   }
 
@@ -125,6 +157,10 @@ export class Main extends Component {
       {
         title: "ProgramSelection",
         content: <ProgramSelection form={this.props.form} />
+      },
+      {
+        title: "DocumentsUpload",
+        content: <DocumentsUpload form={this.props.form} />
       },
       {
         title: "ContactInfo",
