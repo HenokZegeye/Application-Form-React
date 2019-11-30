@@ -22,18 +22,9 @@ export class DocumentsUpload extends Component {
   beforeUpload = file => {
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-      message.error("Image must smaller than 2MB!");
+      message.error("File size must be smaller than 2MB!");
     }
     return true && isLt2M;
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log("Received values of form: ", values);
-      }
-    });
   };
 
   customRequestTranscriptUpload = ({ onSuccess, onError, file }) => {
@@ -56,7 +47,6 @@ export class DocumentsUpload extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-
     return (
       <div>
         <h4 className="pt-4">Upload neccessary documents</h4>
@@ -64,10 +54,14 @@ export class DocumentsUpload extends Component {
           <Col span={12}>
             <FormItem label="Highschool Transcript">
               {getFieldDecorator("highschool_transcript", {
-                rules: [{ validator: this.customTranscriptValidator }]
+                rules: [
+                  {
+                    required: true,
+                    message: "Please upload your highschool transcript"
+                  }
+                ]
               })(
                 <Upload
-                  name="file"
                   customRequest={this.customRequestTranscriptUpload}
                   fileList={this.state.transcript_file_list}
                   showUploadList={this.state.uploadList}

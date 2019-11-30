@@ -11,35 +11,8 @@ export class ContactInfo extends Component {
     message.error(msg);
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (err) {
-        this.error(ResponseCodes.MSG_VALIDATION_ERROR);
-      } else {
-        let applicant = {};
-        let payload = values;
-
-        applicant = applicant.payload;
-        console.log("payloadd", payload);
-        LModel.create("applicants", payload)
-          .then(response => {
-            if (response.success) {
-              console.log("response from create", response);
-            } else {
-              console.log("Unable to create contact information");
-            }
-          })
-          .catch(error => {
-            console.log("The error is ", error);
-            this.error("Email has already been taken");
-          });
-      }
-    });
-  };
   render() {
     const { getFieldDecorator } = this.props.form;
-
     return (
       <div>
         <h4 className="pt-4">Please Fill in the following Fields</h4>
