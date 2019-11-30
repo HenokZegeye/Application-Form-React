@@ -4,6 +4,9 @@ import ResponseCodes from "../../utils/ResponseCodes";
 import LModel from "../../services/api";
 const FormItem = Form.Item;
 export class ContactInfo extends Component {
+  componentDidUpdate() {
+    console.log("applicaiton data", this.props);
+  }
   success = msg => {
     message.success(msg);
   };

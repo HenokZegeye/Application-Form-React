@@ -31,7 +31,9 @@ export class Main extends Component {
     current: 0,
     enrollmentApplicationId: null,
     applicationData: {},
-    select_program: {}
+    select_program: {},
+    attached_documents: {},
+    contact_info: {}
   };
 
   next() {
@@ -44,9 +46,12 @@ export class Main extends Component {
             const select_program = this.props.form.getFieldsValue(
               fields.Select_Program
             );
+            let applicationData = this.state.applicationData;
+
             this.setState({ current });
             this.setState({ select_program }, () => {
-              this.setState({ applicationData: this.state.select_program });
+              applicationData.select_program = this.state.select_program;
+              this.setState({ applicationData });
             });
           }
         }
@@ -57,7 +62,18 @@ export class Main extends Component {
         (err, values) => {
           if (!err) {
             const current = this.state.current + 1;
+            const attached_documents = this.props.form.getFieldsValue(
+              fields.Upload_Document
+            );
+            let applicationData = this.state.applicationData;
+
             this.setState({ current });
+            this.setState({ attached_documents }, () => {
+              applicationData.attached_documents = this.state.attached_documents;
+              this.setState({
+                applicationData
+              });
+            });
           }
         }
       );
@@ -67,7 +83,15 @@ export class Main extends Component {
         (err, values) => {
           if (!err) {
             const current = this.state.current + 1;
+            const contact_info = this.props.form.getFieldsValue(
+              fields.Contact_Info
+            );
+            let applicationData = this.state.applicationData;
             this.setState({ current });
+            this.setState({ contact_info }, () => {
+              applicationData.contact_info = this.state.contact_info;
+              this.setState({ applicationData });
+            });
           }
         }
       );
@@ -185,7 +209,13 @@ export class Main extends Component {
       },
       {
         title: "ContactInfo",
-        content: <ContactInfo form={this.props.form} />
+        content: (
+          <ContactInfo
+            applicationData={this.state.applicationData}
+            form={this.props.form}
+            enrollmentApplicationId={this.state.enrollmentApplicationId}
+          />
+        )
       }
     ];
 
