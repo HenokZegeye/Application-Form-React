@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Upload, Icon, message, Button, Row, Col, Form } from "antd";
+import LModel from "../../services/api";
 const FormItem = Form.Item;
 
 export class DocumentsUpload extends Component {
@@ -10,7 +11,8 @@ export class DocumentsUpload extends Component {
     g12NationalExam_file_list: [],
     previewImage: "",
     transcript_path: "",
-    motivationLetter_path: null
+    motivationLetter_path: null,
+    enrollmentApplicationId: this.props.enrollmentApplicationId
   };
 
   componentDidUpdate() {
@@ -34,6 +36,24 @@ export class DocumentsUpload extends Component {
     });
   };
 
+  customRequestTranscriptUpload = ({ onSuccess, onError, file }) => {
+    let reader = new window.FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onloadend = () => {
+      let data = new FormData();
+      data.append("document_type", "Transcript");
+      data.append("enrollment_application_id", "1");
+      data.append("document", file);
+      LModel.create("documents", data)
+        .then(response => {
+          console.log("updated : ", response);
+        })
+        .catch(err => {
+          console.log("Error ==> ", err);
+        });
+    };
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
 
@@ -44,19 +64,17 @@ export class DocumentsUpload extends Component {
           <Col span={12}>
             <FormItem label="Highschool Transcript">
               {getFieldDecorator("highschool_transcript", {
-                rules: [
-                  {
-                    required: true,
-                    message: "Please upload your highschool transcript"
-                  }
-                ]
+                rules: [{ validator: this.customTranscriptValidator }]
               })(
                 <Upload
                   name="file"
+                  customRequest={this.customRequestTranscriptUpload}
                   fileList={this.state.transcript_file_list}
                   showUploadList={this.state.uploadList}
                   beforeUpload={this.beforeUpload}
-                  accept={[".pdf", "jpeg", "jpg"]}
+                  onChange={this.handleTranscriptChange}
+                  onRemove={this.onRemoveTranscript}
+                  accept={[".pdf", ".doc", ".docx"]}
                 >
                   {this.state.transcript_file_list.length >= 1 ? null : (
                     <Button>
@@ -82,6 +100,7 @@ export class DocumentsUpload extends Component {
               })(
                 <Upload
                   name="file"
+                  customRequest={this.customRequestG12ExamResultUpload}
                   fileList={this.state.g12NationalExam_file_list}
                   showUploadList={this.state.uploadList}
                   beforeUpload={this.beforeUpload}

@@ -29,6 +29,7 @@ const fields = {
 export class Main extends Component {
   state = {
     current: 0,
+    enrollmentApplicationId: null,
     applicationData: {},
     select_program: {}
   };
@@ -178,6 +179,7 @@ export class Main extends Component {
           <DocumentsUpload
             applicationData={this.state.applicationData}
             form={this.props.form}
+            enrollmentApplicationId={this.state.enrollmentApplicationId}
           />
         )
       },
