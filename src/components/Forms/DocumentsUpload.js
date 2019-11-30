@@ -13,6 +13,10 @@ export class DocumentsUpload extends Component {
     motivationLetter_path: null
   };
 
+  componentDidUpdate() {
+    console.log("applicaiton data", this.props);
+  }
+
   beforeUpload = file => {
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
@@ -40,7 +44,12 @@ export class DocumentsUpload extends Component {
           <Col span={12}>
             <FormItem label="Highschool Transcript">
               {getFieldDecorator("highschool_transcript", {
-                rules: [{ required: true }]
+                rules: [
+                  {
+                    required: true,
+                    message: "Please upload your highschool transcript"
+                  }
+                ]
               })(
                 <Upload
                   name="file"
@@ -63,7 +72,13 @@ export class DocumentsUpload extends Component {
           <Col span={12}>
             <FormItem label="EHEECE(Grade 12 national exam result)">
               {getFieldDecorator("grade12_National_Exam_Result", {
-                rules: [{ required: true }]
+                rules: [
+                  {
+                    required: true,
+                    message:
+                      "Please upload your grade 12 national exam result document"
+                  }
+                ]
               })(
                 <Upload
                   name="file"

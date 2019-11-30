@@ -28,8 +28,11 @@ const fields = {
 
 export class Main extends Component {
   state = {
-    current: 0
+    current: 0,
+    applicationData: {},
+    select_program: {}
   };
+
   next() {
     if (this.state.current == 0) {
       this.props.form.validateFieldsAndScroll(
@@ -37,7 +40,13 @@ export class Main extends Component {
         (err, values) => {
           if (!err) {
             const current = this.state.current + 1;
+            const select_program = this.props.form.getFieldsValue(
+              fields.Select_Program
+            );
             this.setState({ current });
+            this.setState({ select_program }, () => {
+              this.setState({ applicationData: this.state.select_program });
+            });
           }
         }
       );
@@ -156,11 +165,21 @@ export class Main extends Component {
     let steps = [
       {
         title: "ProgramSelection",
-        content: <ProgramSelection form={this.props.form} />
+        content: (
+          <ProgramSelection
+            applicationData={this.state.applicationData}
+            form={this.props.form}
+          />
+        )
       },
       {
         title: "DocumentsUpload",
-        content: <DocumentsUpload form={this.props.form} />
+        content: (
+          <DocumentsUpload
+            applicationData={this.state.applicationData}
+            form={this.props.form}
+          />
+        )
       },
       {
         title: "ContactInfo",

@@ -13,6 +13,10 @@ export class ProgramSelection extends Component {
     secondField: fieldOfStudyData[programData[0]][0]
   };
 
+  componentDidUpdate() {
+    console.log("applicaiton data", this.props);
+  }
+
   handleProgramChange = value => {
     this.setState({
       fieldOfStudies: fieldOfStudyData[value],
