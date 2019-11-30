@@ -30,4 +30,29 @@ export default class LModel {
         .catch(error => reject(error));
     });
   }
+
+  static destroy(pluralName, id) {
+    let url = API_BASE_URL + pluralName + "/" + id;
+
+    return new Promise(function(resolve, reject) {
+      axios({
+        method: "delete",
+        url: url
+      })
+        .then(response => resolve(response))
+        .catch(error => reject(error));
+    });
+  }
+
+  static deleteFiles(container, files) {
+    let url = API_BASE_URL + "Containers/deleteFiles";
+    let options = { container, files };
+
+    return new Promise(function(resolve, reject) {
+      axios
+        .post(url, options)
+        .then(response => resolve(response))
+        .catch(error => reject(error));
+    });
+  }
 }

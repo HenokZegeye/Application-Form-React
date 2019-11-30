@@ -18,6 +18,8 @@ export class DocumentsUpload extends Component {
   componentDidUpdate() {
     console.log("applicaiton data", this.props);
   }
+  handleTranscriptChange = ({ fileList }) =>
+    this.setState({ transcript_file_list: fileList });
 
   beforeUpload = file => {
     const isLt2M = file.size / 1024 / 1024 < 2;
@@ -27,6 +29,44 @@ export class DocumentsUpload extends Component {
     return true && isLt2M;
   };
 
+  onRemoveTranscript = file => {
+    const index = this.state.transcript_file_list.indexOf(file);
+    const newFileList = this.state.transcript_file_list.slice();
+
+    const document_id = this.state.transcript_file_list[index].document_id;
+    const transcript_name = file.name;
+    console.log("file ==> ", this.state.transcript_file_list[index]);
+
+    console.log(
+      "Document ID --> ",
+      this.state.transcript_file_list[index].document_id
+    );
+    console.log("Transcript name ==> ", transcript_name);
+    LModel.destroy("documents", document_id)
+      .then(response => {
+        console.log("Transcript document delteded succesfulyu", response);
+        newFileList.splice(index, 1);
+        this.setState({ transcript_file_list: newFileList });
+        LModel.deleteFile("documents", transcript_name)
+          .then(response => {
+            console.log("transcript file successfuly delted", response);
+          })
+          .catch(err => {
+            console.log("unable to delete trascript file", err);
+          });
+      })
+      .catch(err => {
+        console.log("unable to delete transcript document ", err);
+      });
+  };
+  customTranscriptValidator = (rule, value, callback) => {
+    console.log("Tran vali ==> ", this.state.transcript_file_list);
+    if (this.state.transcript_file_list.length >= 1) {
+      callback();
+    } else {
+      callback("Please upload your transcript");
+    }
+  };
   customRequestTranscriptUpload = ({ onSuccess, onError, file }) => {
     let reader = new window.FileReader();
     reader.readAsArrayBuffer(file);
@@ -35,9 +75,24 @@ export class DocumentsUpload extends Component {
       data.append("document_type", "Transcript");
       data.append("enrollment_application_id", "1");
       data.append("document", file);
+      console.log("fileeeeee", file);
+      let previously_uploaded = this.state.transcript_file_list[0];
+      console.log("previously uploaded : ", previously_uploaded);
       LModel.create("documents", data)
         .then(response => {
           console.log("updated : ", response);
+          const list = [];
+
+          list.push({
+            uid: response.data.document.url,
+            name: file.name,
+            status: "done",
+            url: LModel.API_BASE_URL + response.data.document.url,
+            document_id: response.data.id
+          });
+          this.setState({ transcript_file_list: list });
+          console.log("file liiist", this.state.transcript_file_list);
+          onSuccess();
         })
         .catch(err => {
           console.log("Error ==> ", err);
@@ -56,12 +111,12 @@ export class DocumentsUpload extends Component {
               {getFieldDecorator("highschool_transcript", {
                 rules: [
                   {
-                    required: true,
-                    message: "Please upload your highschool transcript"
+                    validator: this.customTranscriptValidator
                   }
                 ]
               })(
                 <Upload
+                  name="file"
                   customRequest={this.customRequestTranscriptUpload}
                   fileList={this.state.transcript_file_list}
                   showUploadList={this.state.uploadList}
