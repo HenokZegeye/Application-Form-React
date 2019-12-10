@@ -4,6 +4,7 @@ import Logo from "../Logo";
 import ProgramSelection from "./ProgramSelection";
 import ContactInfo from "./ContactInfo";
 import DocumentsUpload from "./DocumentsUpload";
+import Preview from "./Preview";
 const { Step } = Steps;
 
 const steps = [
@@ -33,8 +34,13 @@ export class Main extends Component {
     applicationData: {},
     select_program: {},
     attached_documents: {},
-    contact_info: {}
+    contact_info: {},
+    loaded: false
   };
+
+  // componentDidMount() {
+
+  // }
 
   next() {
     if (this.state.current == 0) {
@@ -47,7 +53,6 @@ export class Main extends Component {
               fields.Select_Program
             );
             let applicationData = this.state.applicationData;
-
             this.setState({ current });
             this.setState({ select_program }, () => {
               applicationData.select_program = this.state.select_program;
@@ -111,41 +116,7 @@ export class Main extends Component {
     return (
       <Col>
         <Steps
-          onChange={this.onChange}
-          direction="vertical"
-          current={current}
-          className="mt-5"
-        >
-          {steps.map(item => (
-            <Step style={{ height: "100px" }} key={item} title={item} />
-          ))}
-        </Steps>
-      </Col>
-    );
-  };
-
-  renderSteps = current => {
-    return (
-      <Col>
-        <Steps
-          onChange={this.onChange}
-          direction="vertical"
-          current={current}
-          className="mt-5"
-        >
-          {steps.map(item => (
-            <Step style={{ height: "100px" }} key={item} title={item} />
-          ))}
-        </Steps>
-      </Col>
-    );
-  };
-
-  renderSelectedComponent = current => {
-    return (
-      <Col>
-        <Steps
-          onChange={this.onChange}
+          // onChange={this.onChange}
           direction="vertical"
           current={current}
           className="mt-5"
@@ -211,6 +182,16 @@ export class Main extends Component {
         title: "ContactInfo",
         content: (
           <ContactInfo
+            applicationData={this.state.applicationData}
+            form={this.props.form}
+            enrollmentApplicationId={this.state.enrollmentApplicationId}
+          />
+        )
+      },
+      {
+        title: "Preview",
+        content: (
+          <Preview
             applicationData={this.state.applicationData}
             form={this.props.form}
             enrollmentApplicationId={this.state.enrollmentApplicationId}
