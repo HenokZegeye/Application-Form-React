@@ -18,73 +18,42 @@ export class DocumentsUpload extends Component {
 
   componentDidMount() {
     if (this.props.applicationData.attached_documents) {
-      let documents = this.props.applicationData.attached_documents;
-      const arr_docs = Object.entries(documents);
-      for (let i = 0; i < arr_docs.length; i++) {
-        const document_name = arr_docs[i][0];
-        if (document_name === "highschool_transcript") {
-          console.log("from highschool", arr_docs[i][1].file);
-          console.log(
-            "from highschool transcript path",
-            this.state.transcript_path
-          );
-          const list = [];
-          list.push({
-            uid: arr_docs[i][1].file.uid,
-            name: arr_docs[i][1].file.name,
-            status: "done",
-            url: LModel.API_BASE_URL + arr_docs[i][1].url
-          });
-          this.setState({ transcript_file_list: list });
-        } else if (document_name === "grade12_National_Exam_Result") {
-          console.log("from grade 12", arr_docs[i][1].file);
+      console.log("application data iff exist", this.props.applicationData);
+      this.setState(
+        {
+          attached_documents: this.props.applicationData.attached_documents
+        },
+        () => {
+          let documents = this.state.attached_documents;
+          for (var document in documents) {
+            if (document === "transcript") {
+              let doc = documents[document][0];
+              const list = [];
+              list.push({
+                uid: doc.uid,
+                name: doc.name,
+                status: "done",
+                url: doc.url,
+                document_id: doc.document_id
+              });
+              this.setState({ transcript_file_list: list });
+            } else if (document === "g12Exam") {
+              let doc = documents[document][0];
+              const list = [];
+              list.push({
+                uid: doc.uid,
+                name: doc.name,
+                status: "done",
+                url: doc.url,
+                document_id: doc.document_id
+              });
+              this.setState({ g12NationalExam_file_list: list });
+            }
+          }
+          console.log("documentssssss from component did mount", documents);
         }
-      }
+      );
     }
-
-    // let documents = this.state.attachedDocs;
-    // for (var i = 0; i < documents.length; i++) {
-    //   let document = documents[i];
-    //   if (document.documentName === "PHOTO") {
-    //     const list = [];
-    //     list.push({
-    //       uid: document.id,
-    //       name: document.original_file_name,
-    //       status: "done",
-    //       url: LModel.API_BASE_URL + document.path,
-    //       document_id: document.id,
-    //       uploaded_photo_name: document.uploaded_photo_name
-    //     });
-    //     this.setState({ photo_file_list: list });
-    //   } else if (document.documentName === "MOTIVATION_LETTER") {
-    //     const list = [];
-    //     console.log("photo docu : ", document);
-    //     list.push({
-    //       uid: document.id,
-    //       name: document.original_file_name,
-    //       status: "done",
-    //       url: LModel.API_BASE_URL + document.path,
-    //       document_id: document.id,
-    //       uploaded_motivation_letter_name:
-    //         document.uploaded_motivation_letter_name
-    //     });
-
-    //     this.setState({ motivation_letter_file_list: list });
-    //   } else if (document.documentName === "TRANSCRIPT") {
-    //     const list = [];
-    //     console.log("photo docu : ", document);
-    //     list.push({
-    //       uid: document.id,
-    //       name: document.original_file_name,
-    //       status: "done",
-    //       url: LModel.API_BASE_URL + document.path,
-    //       document_id: document.id,
-    //       uploaded_transcript_name: document.uploaded_transcript_name
-    //     });
-
-    //     this.setState({ transcript_file_list: list });
-    //   }
-    // }
   }
 
   componentDidUpdate() {
@@ -203,6 +172,7 @@ export class DocumentsUpload extends Component {
           const list = [];
 
           list.push({
+            type: "Transcript",
             uid: response.data.document.url,
             name: file.name,
             status: "done",
@@ -215,11 +185,11 @@ export class DocumentsUpload extends Component {
           this.setState({ transcript_file_list: list }, () => {
             attached_documents.transcript = this.state.transcript_file_list;
             this.setState({
-              attached_documents: attached_documents.transcript
+              attached_documents
             });
           });
           console.log("current attached docs", attached_documents);
-          this.props.onUpdate(this.state.transcript_file_list, "Transcript");
+          this.props.onUpdate(attached_documents);
           onSuccess();
         })
         .catch(err => {
@@ -244,6 +214,7 @@ export class DocumentsUpload extends Component {
           const list = [];
 
           list.push({
+            type: "G12Exam",
             uid: response.data.document.url,
             name: file.name,
             status: "done",
@@ -255,10 +226,10 @@ export class DocumentsUpload extends Component {
 
           this.setState({ g12NationalExam_file_list: list }, () => {
             attached_documents.g12Exam = this.state.g12NationalExam_file_list;
-            this.setState({ attached_documents: attached_documents.g12Exam });
+            this.setState({ attached_documents });
           });
           console.log("current attached docs", attached_documents);
-          this.props.onUpdate(this.state.g12NationalExam_file_list, "G12Exam");
+          this.props.onUpdate(attached_documents);
           console.log("file liiist", this.state.g12NationalExam_file_list);
           onSuccess();
         })

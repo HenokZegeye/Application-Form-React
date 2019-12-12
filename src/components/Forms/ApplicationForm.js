@@ -40,32 +40,13 @@ export class Main extends Component {
     loaded: false
   };
 
-  onUpdate = (path, type) => {
-    if (type === "Transcript") {
-      var transcript_file = path;
-      transcript_file.type = type;
-      this.setState({ transcript_file }, () => {
-        let attached_documents = this.state.attached_documents;
-        attached_documents.type = this.state.transcript_file;
-        this.setState({ attached_documents });
-      });
-    } else if (type === "G12Exam") {
-      var g12_exam_file = path;
-      g12_exam_file.type = type;
-      this.setState({ g12_exam_file }, () => {
-        let attached_documents = this.state.attached_documents;
-        attached_documents.type = this.state.g12_exam_file;
-        this.setState({ attached_documents });
-      });
-    }
-    console.log("transcript", this.state.transcript_file);
-    console.log("g12", this.state.g12_exam_file);
-    console.log("attached docs from update", this.state.attached_documents);
-
-    // this.setState({ attached_documents });
-    // console.log("attached doccsss from update", this.state.attached_documents);
-    // console.log("transss path from onupdate function", path);
-    // console.log("type from onupdate function", type);
+  onUpdate = attached_documents => {
+    console.log("attacheedddd docs from application form", attached_documents);
+    this.setState({ attached_documents });
+    console.log(
+      "attached docs state from application form...",
+      this.state.attached_documents
+    );
   };
 
   next() {
@@ -93,19 +74,14 @@ export class Main extends Component {
         (err, values) => {
           if (!err) {
             const current = this.state.current + 1;
-            let attached_documents = this.props.form.getFieldsValue(
-              fields.Upload_Document
-            );
+            let attached_documents = this.state.attached_documents;
 
             let applicationData = this.state.applicationData;
 
+            applicationData.attached_documents = attached_documents;
+
             this.setState({ current });
-            this.setState({ attached_documents }, () => {
-              applicationData.attached_documents = this.state.attached_documents;
-              this.setState({
-                applicationData
-              });
-            });
+            this.setState({ applicationData });
           }
         }
       );
