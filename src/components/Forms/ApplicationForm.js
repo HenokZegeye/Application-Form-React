@@ -34,13 +34,39 @@ export class Main extends Component {
     applicationData: {},
     select_program: {},
     attached_documents: {},
+    transcript_file: {},
+    g12_exam_file: {},
     contact_info: {},
     loaded: false
   };
 
-  // componentDidMount() {
+  onUpdate = (path, type) => {
+    if (type === "Transcript") {
+      var transcript_file = path;
+      transcript_file.type = type;
+      this.setState({ transcript_file }, () => {
+        let attached_documents = this.state.attached_documents;
+        attached_documents.type = this.state.transcript_file;
+        this.setState({ attached_documents });
+      });
+    } else if (type === "G12Exam") {
+      var g12_exam_file = path;
+      g12_exam_file.type = type;
+      this.setState({ g12_exam_file }, () => {
+        let attached_documents = this.state.attached_documents;
+        attached_documents.type = this.state.g12_exam_file;
+        this.setState({ attached_documents });
+      });
+    }
+    console.log("transcript", this.state.transcript_file);
+    console.log("g12", this.state.g12_exam_file);
+    console.log("attached docs from update", this.state.attached_documents);
 
-  // }
+    // this.setState({ attached_documents });
+    // console.log("attached doccsss from update", this.state.attached_documents);
+    // console.log("transss path from onupdate function", path);
+    // console.log("type from onupdate function", type);
+  };
 
   next() {
     if (this.state.current == 0) {
@@ -67,9 +93,10 @@ export class Main extends Component {
         (err, values) => {
           if (!err) {
             const current = this.state.current + 1;
-            const attached_documents = this.props.form.getFieldsValue(
+            let attached_documents = this.props.form.getFieldsValue(
               fields.Upload_Document
             );
+
             let applicationData = this.state.applicationData;
 
             this.setState({ current });
@@ -156,8 +183,47 @@ export class Main extends Component {
     );
   };
 
+  renderComponents = current => {
+    switch (current) {
+      case 0:
+        return (
+          <div>
+            <ProgramSelection
+              applicationData={this.state.applicationData}
+              form={this.props.form}
+            />
+          </div>
+        );
+      case 1:
+        return (
+          <div>
+            <DocumentsUpload
+              onUpdate={this.onUpdate}
+              applicationData={this.state.applicationData}
+              form={this.props.form}
+              enrollmentApplicationId={this.state.enrollmentApplicationId}
+            />
+          </div>
+        );
+      case 2:
+        return (
+          <div>
+            <ContactInfo
+              applicationData={this.state.applicationData}
+              form={this.props.form}
+              enrollmentApplicationId={this.state.enrollmentApplicationId}
+            />
+          </div>
+        );
+
+      default:
+        break;
+    }
+  };
+
   render() {
     const { current } = this.state;
+
     let steps = [
       {
         title: "ProgramSelection",
@@ -218,7 +284,7 @@ export class Main extends Component {
               <div>{this.renderSteps(current)}</div>
             </Col>
             <Col span={12} offset={5}>
-              <div>
+              {/* <div>
                 {steps.map(({ title, content }, i) => (
                   <div
                     key={title}
@@ -227,7 +293,8 @@ export class Main extends Component {
                     {content}
                   </div>
                 ))}
-              </div>
+              </div> */}
+              <div>{this.renderComponents(current)}</div>
               {this.renderStepActions()}
             </Col>
           </div>

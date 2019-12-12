@@ -13,6 +13,18 @@ export class ProgramSelection extends Component {
     secondField: fieldOfStudyData[programData[0]][0]
   };
 
+  componentDidMount() {
+    if (this.props.applicationData.select_program) {
+      console.log(
+        "applicationdata from program selection",
+        this.props.applicationData
+      );
+      let component = this;
+      component.props.form.setFieldsValue(
+        this.props.applicationData.select_program
+      );
+    }
+  }
   componentDidUpdate() {
     console.log("applicaiton data", this.props);
   }

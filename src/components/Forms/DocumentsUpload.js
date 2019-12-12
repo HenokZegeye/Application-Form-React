@@ -11,9 +11,81 @@ export class DocumentsUpload extends Component {
     g12NationalExam_file_list: [],
     previewImage: "",
     transcript_path: "",
-    motivationLetter_path: null,
+    g12NationalExam_path: "",
+    attached_documents: {},
     enrollmentApplicationId: this.props.enrollmentApplicationId
   };
+
+  componentDidMount() {
+    if (this.props.applicationData.attached_documents) {
+      let documents = this.props.applicationData.attached_documents;
+      const arr_docs = Object.entries(documents);
+      for (let i = 0; i < arr_docs.length; i++) {
+        const document_name = arr_docs[i][0];
+        if (document_name === "highschool_transcript") {
+          console.log("from highschool", arr_docs[i][1].file);
+          console.log(
+            "from highschool transcript path",
+            this.state.transcript_path
+          );
+          const list = [];
+          list.push({
+            uid: arr_docs[i][1].file.uid,
+            name: arr_docs[i][1].file.name,
+            status: "done",
+            url: LModel.API_BASE_URL + arr_docs[i][1].url
+          });
+          this.setState({ transcript_file_list: list });
+        } else if (document_name === "grade12_National_Exam_Result") {
+          console.log("from grade 12", arr_docs[i][1].file);
+        }
+      }
+    }
+
+    // let documents = this.state.attachedDocs;
+    // for (var i = 0; i < documents.length; i++) {
+    //   let document = documents[i];
+    //   if (document.documentName === "PHOTO") {
+    //     const list = [];
+    //     list.push({
+    //       uid: document.id,
+    //       name: document.original_file_name,
+    //       status: "done",
+    //       url: LModel.API_BASE_URL + document.path,
+    //       document_id: document.id,
+    //       uploaded_photo_name: document.uploaded_photo_name
+    //     });
+    //     this.setState({ photo_file_list: list });
+    //   } else if (document.documentName === "MOTIVATION_LETTER") {
+    //     const list = [];
+    //     console.log("photo docu : ", document);
+    //     list.push({
+    //       uid: document.id,
+    //       name: document.original_file_name,
+    //       status: "done",
+    //       url: LModel.API_BASE_URL + document.path,
+    //       document_id: document.id,
+    //       uploaded_motivation_letter_name:
+    //         document.uploaded_motivation_letter_name
+    //     });
+
+    //     this.setState({ motivation_letter_file_list: list });
+    //   } else if (document.documentName === "TRANSCRIPT") {
+    //     const list = [];
+    //     console.log("photo docu : ", document);
+    //     list.push({
+    //       uid: document.id,
+    //       name: document.original_file_name,
+    //       status: "done",
+    //       url: LModel.API_BASE_URL + document.path,
+    //       document_id: document.id,
+    //       uploaded_transcript_name: document.uploaded_transcript_name
+    //     });
+
+    //     this.setState({ transcript_file_list: list });
+    //   }
+    // }
+  }
 
   componentDidUpdate() {
     console.log("applicaiton data", this.props);
@@ -122,7 +194,12 @@ export class DocumentsUpload extends Component {
       console.log("previously uploaded : ", previously_uploaded);
       LModel.create("documents", data)
         .then(response => {
+          let transcript_path =
+            LModel.API_BASE_URL + response.data.document.url;
           console.log("updated : ", response);
+          console.log("transcripttt pathhhh", transcript_path);
+          this.setState({ transcript_path });
+          console.log("transcript path from state", this.state.transcript_path);
           const list = [];
 
           list.push({
@@ -132,8 +209,17 @@ export class DocumentsUpload extends Component {
             url: LModel.API_BASE_URL + response.data.document.url,
             document_id: response.data.id
           });
-          this.setState({ transcript_file_list: list });
-          console.log("file liiist", this.state.transcript_file_list);
+          let attached_documents = this.state.attached_documents;
+          console.log("previous attached docs", attached_documents);
+
+          this.setState({ transcript_file_list: list }, () => {
+            attached_documents.transcript = this.state.transcript_file_list;
+            this.setState({
+              attached_documents: attached_documents.transcript
+            });
+          });
+          console.log("current attached docs", attached_documents);
+          this.props.onUpdate(this.state.transcript_file_list, "Transcript");
           onSuccess();
         })
         .catch(err => {
@@ -164,7 +250,15 @@ export class DocumentsUpload extends Component {
             url: LModel.API_BASE_URL + response.data.document.url,
             document_id: response.data.id
           });
-          this.setState({ g12NationalExam_file_list: list });
+          let attached_documents = this.state.attached_documents;
+          console.log("previous attached docs", attached_documents);
+
+          this.setState({ g12NationalExam_file_list: list }, () => {
+            attached_documents.g12Exam = this.state.g12NationalExam_file_list;
+            this.setState({ attached_documents: attached_documents.g12Exam });
+          });
+          console.log("current attached docs", attached_documents);
+          this.props.onUpdate(this.state.g12NationalExam_file_list, "G12Exam");
           console.log("file liiist", this.state.g12NationalExam_file_list);
           onSuccess();
         })
@@ -190,7 +284,7 @@ export class DocumentsUpload extends Component {
                 ]
               })(
                 <Upload
-                  name="file"
+                  name="transcript"
                   customRequest={this.customRequestTranscriptUpload}
                   fileList={this.state.transcript_file_list}
                   showUploadList={this.state.uploadList}
