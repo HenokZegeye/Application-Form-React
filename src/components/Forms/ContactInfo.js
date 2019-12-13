@@ -31,7 +31,7 @@ export class ContactInfo extends Component {
         <Row type="flex">
           <Col span={24}>
             <FormItem label="Your Name">
-              {getFieldDecorator("applicant[first_name]", {
+              {getFieldDecorator("first_name", {
                 rules: [
                   {
                     required: true,
@@ -46,7 +46,7 @@ export class ContactInfo extends Component {
               })(<Input placeholder="Your Name" />)}
             </FormItem>
             <FormItem label="Father Name">
-              {getFieldDecorator("applicant[middle_name]", {
+              {getFieldDecorator("middle_name", {
                 rules: [
                   {
                     required: true,
@@ -61,7 +61,7 @@ export class ContactInfo extends Component {
               })(<Input placeholder="Father Name" />)}
             </FormItem>
             <FormItem label="Grandfather Name">
-              {getFieldDecorator("applicant[last_name]", {
+              {getFieldDecorator("last_name", {
                 rules: [
                   {
                     required: true,
@@ -78,7 +78,7 @@ export class ContactInfo extends Component {
             <Row gutter={4}>
               <Col span={12}>
                 <FormItem label="Email address" labelAlign="left">
-                  {getFieldDecorator("applicant[email]", {
+                  {getFieldDecorator("email", {
                     rules: [
                       {
                         required: true,
@@ -94,7 +94,7 @@ export class ContactInfo extends Component {
               </Col>
               <Col span={12}>
                 <FormItem label="Phone Number" labelAlign="left">
-                  {getFieldDecorator("applicant[phone_number]", {
+                  {getFieldDecorator("phone_number", {
                     rules: [
                       {
                         required: true,

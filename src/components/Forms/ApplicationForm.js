@@ -19,11 +19,11 @@ const fields = {
   Select_Program: ["programType", "fieldOfStudy", "modeOfAttendance"],
   Upload_Document: ["highschool_transcript", "grade12_National_Exam_Result"],
   Contact_Info: [
-    "applicant[first_name]",
-    "applicant[middle_name]",
-    "applicant[last_name]",
-    "applicant[email]",
-    "applicant[phone_number]"
+    "first_name",
+    "middle_name",
+    "last_name",
+    "email",
+    "phone_number"
   ]
 };
 
