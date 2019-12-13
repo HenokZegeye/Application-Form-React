@@ -191,6 +191,16 @@ export class Main extends Component {
             />
           </div>
         );
+      case 3:
+        return (
+          <div>
+            <Preview
+              applicationData={this.state.applicationData}
+              form={this.props.form}
+              enrollmentApplicationId={this.state.enrollmentApplicationId}
+            />
+          </div>
+        );
 
       default:
         break;
@@ -200,47 +210,47 @@ export class Main extends Component {
   render() {
     const { current } = this.state;
 
-    let steps = [
-      {
-        title: "ProgramSelection",
-        content: (
-          <ProgramSelection
-            applicationData={this.state.applicationData}
-            form={this.props.form}
-          />
-        )
-      },
-      {
-        title: "DocumentsUpload",
-        content: (
-          <DocumentsUpload
-            applicationData={this.state.applicationData}
-            form={this.props.form}
-            enrollmentApplicationId={this.state.enrollmentApplicationId}
-          />
-        )
-      },
-      {
-        title: "ContactInfo",
-        content: (
-          <ContactInfo
-            applicationData={this.state.applicationData}
-            form={this.props.form}
-            enrollmentApplicationId={this.state.enrollmentApplicationId}
-          />
-        )
-      },
-      {
-        title: "Preview",
-        content: (
-          <Preview
-            applicationData={this.state.applicationData}
-            form={this.props.form}
-            enrollmentApplicationId={this.state.enrollmentApplicationId}
-          />
-        )
-      }
-    ];
+    // let steps = [
+    //   {
+    //     title: "ProgramSelection",
+    //     content: (
+    //       <ProgramSelection
+    //         applicationData={this.state.applicationData}
+    //         form={this.props.form}
+    //       />
+    //     )
+    //   },
+    //   {
+    //     title: "DocumentsUpload",
+    //     content: (
+    //       <DocumentsUpload
+    //         applicationData={this.state.applicationData}
+    //         form={this.props.form}
+    //         enrollmentApplicationId={this.state.enrollmentApplicationId}
+    //       />
+    //     )
+    //   },
+    //   {
+    //     title: "ContactInfo",
+    //     content: (
+    //       <ContactInfo
+    //         applicationData={this.state.applicationData}
+    //         form={this.props.form}
+    //         enrollmentApplicationId={this.state.enrollmentApplicationId}
+    //       />
+    //     )
+    //   },
+    //   {
+    //     title: "Preview",
+    //     content: (
+    //       <Preview
+    //         applicationData={this.state.applicationData}
+    //         form={this.props.form}
+    //         enrollmentApplicationId={this.state.enrollmentApplicationId}
+    //       />
+    //     )
+    //   }
+    // ];
 
     return (
       <div>

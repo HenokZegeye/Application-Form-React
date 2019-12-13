@@ -32,24 +32,9 @@ const DescriptionItem = ({ title, content }) => {
 };
 
 export class Preview extends Component {
-  state = {
-    program_selected: {
-      program_type: "hello"
-    },
-    contact_info: this.props.applicationData.contact_info,
-    attached_documents: this.props.applicationData.attached_documents
-  };
+  state = {};
 
   render() {
-    console.log("application data in preview", this.props.applicationData);
-    if (this.props.applicationData.select_program != undefined) {
-      console.log(
-        "select program in preview",
-        this.props.applicationData.select_program.programType
-      );
-      const program_selected = this.props.applicationData.select_program;
-      this.setState({ program_selected });
-    }
     return (
       <div>
         <Row type={"flex"}>
