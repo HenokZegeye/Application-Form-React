@@ -187,7 +187,6 @@ export class Main extends Component {
             <ContactInfo
               applicationData={this.state.applicationData}
               form={this.props.form}
-              enrollmentApplicationId={this.state.enrollmentApplicationId}
             />
           </div>
         );

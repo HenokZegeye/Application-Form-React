@@ -4,6 +4,15 @@ import ResponseCodes from "../../utils/ResponseCodes";
 import LModel from "../../services/api";
 const FormItem = Form.Item;
 export class ContactInfo extends Component {
+  componentDidMount() {
+    if (this.props.applicationData.contact_info) {
+      console.log("contact info", this.props.applicationData);
+      let component = this;
+      component.props.form.setFieldsValue(
+        this.props.applicationData.contact_info
+      );
+    }
+  }
   componentDidUpdate() {
     console.log("applicaiton data", this.props);
   }
@@ -107,5 +116,5 @@ export class ContactInfo extends Component {
     );
   }
 }
-ContactInfo = Form.create()(ContactInfo);
+
 export default ContactInfo;

@@ -55,7 +55,7 @@ export class Preview extends Component {
               <Col span={12}>
                 <DescriptionItem
                   title="Program Type"
-                  content={this.state.program_selected.programType}
+                  // content={this.state.program_selected.programType}
                 />
               </Col>
             </Row>
