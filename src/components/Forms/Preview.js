@@ -38,6 +38,7 @@ export class Preview extends Component {
     console.log("contact info from preview", applicationData.contact_info);
 
     const contact_inforamation = applicationData.contact_info;
+    const select_program = applicationData.select_program;
     const fullName =
       contact_inforamation.first_name +
       " " +
@@ -88,22 +89,6 @@ export class Preview extends Component {
                   />
                 </Col>
               </Row>
-              {/*<Row>
-                <Col span={12}>
-                  <DescriptionItem
-                    title="Birthday"
-                    content={new moment(
-                      personalInformations.dateOfBirth
-                    ).format("MMM Do YYYY")}
-                  />
-                </Col>
-                <Col span={12}>
-                  <DescriptionItem
-                    title="Nationality"
-                    content={personalInformations.nationality}
-                  />
-                </Col>
-              </Row>
               <Divider />
               <p
                 style={{
@@ -112,30 +97,31 @@ export class Preview extends Component {
                   textAlign: "center"
                 }}
               >
-                Contact Information
+                Program Preference
               </p>
               <Row>
                 <Col span={12}>
                   <DescriptionItem
-                    title="Country"
-                    content={contactInformations.country}
+                    title="Program Type"
+                    content={select_program.programType}
                   />
                 </Col>
                 <Col span={12}>
                   <DescriptionItem
-                    title="Address"
-                    content={contactInformations.address}
+                    title="Field Of Study"
+                    content={select_program.fieldOfStudy}
                   />
                 </Col>
               </Row>
               <Row>
                 <Col span={12}>
                   <DescriptionItem
-                    title="City"
-                    content={contactInformations.city}
+                    title="Mode Of Attendance"
+                    content={select_program.modeOfAttendance}
                   />
                 </Col>
-                <Col span={12}>
+              </Row>
+              {/*<Col span={12}>
                   <DescriptionItem
                     title="Region"
                     content={contactInformations.region}
