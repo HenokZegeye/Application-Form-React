@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { Form, Row, Col, Button, Input, message } from "antd";
-import ResponseCodes from "../../utils/ResponseCodes";
-import LModel from "../../services/api";
+import { Form, Row, Col, Input, message } from "antd";
 const FormItem = Form.Item;
 export class ContactInfo extends Component {
   componentDidMount() {

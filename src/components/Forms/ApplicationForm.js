@@ -95,10 +95,12 @@ export class Main extends Component {
               fields.Contact_Info
             );
             let applicationData = this.state.applicationData;
-            this.setState({ current });
             this.setState({ contact_info }, () => {
               applicationData.contact_info = this.state.contact_info;
-              this.setState({ applicationData });
+              this.setState({ applicationData }, () => {
+                this.setState({ current });
+                console.log("application data from contact", this.state);
+              });
             });
           }
         }
@@ -196,7 +198,6 @@ export class Main extends Component {
             <Preview
               applicationData={this.state.applicationData}
               form={this.props.form}
-              enrollmentApplicationId={this.state.enrollmentApplicationId}
             />
           </div>
         );

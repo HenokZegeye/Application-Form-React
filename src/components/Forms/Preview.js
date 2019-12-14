@@ -1,9 +1,5 @@
 import React, { Component } from "react";
 import { Divider, Col, Row, Button, Form, Upload, Modal } from "antd";
-import LModel from "../../services/api";
-import moment from "moment";
-const FormItem = Form.Item;
-
 const DescriptionItem = ({ title, content }) => {
   return (
     <div>
@@ -30,11 +26,17 @@ const DescriptionItem = ({ title, content }) => {
     </div>
   );
 };
-
 export class Preview extends Component {
-  state = {};
-
+  state = {
+    applicationData: this.props.applicationData
+  };
+  componentDidMount() {
+    console.log("applicatin data", this.state.applicationData);
+  }
   render() {
+    const applicationData = this.props.applicationData;
+    console.log("contact info from preview", applicationData);
+
     return (
       <div>
         <Row type={"flex"}>
@@ -42,54 +44,6 @@ export class Preview extends Component {
             <Row>
               <h4 className="pt-4">Form Preview</h4>
             </Row>
-            <p
-              style={{
-                color: "black",
-                fontWeight: "bold",
-                textAlign: "center"
-              }}
-            >
-              Program Selection
-            </p>
-            <Row>
-              <Col span={12}>
-                <DescriptionItem
-                  title="Program Type"
-                  // content={this.state.program_selected.programType}
-                />
-              </Col>
-            </Row>
-            <Row>
-              {/* <Col span={12}>
-                <DescriptionItem
-                  title="Mother's Full Name"
-                  content={this.state.contact_info.motherName}
-                />
-              </Col> */}
-              {/* <Col span={12}>
-                <DescriptionItem
-                  title="Sex"
-                  content={this.state.contact_info.sex}
-                />
-              </Col> */}
-            </Row>
-            {/* <Row>
-              <Col span={12}>
-                <DescriptionItem
-                  title="Birthday"
-                  content={new moment(
-                    this.state.contact_info.dateOfBirth
-                  ).format("MMM Do YYYY")}
-                />
-              </Col>
-              <Col span={12}>
-                <DescriptionItem
-                  title="Nationality"
-                  content={this.state.contact_info.nationality}
-                />
-              </Col>
-            </Row> */}
-            <Divider />
           </Col>
         </Row>
       </div>
