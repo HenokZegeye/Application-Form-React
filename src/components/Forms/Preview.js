@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Divider, Col, Row, Button, Form, Upload, Modal } from "antd";
+import { Divider, Col, Row, Upload, Modal } from "antd";
 const DescriptionItem = ({ title, content }) => {
   return (
     <div>
@@ -121,66 +121,8 @@ export class Preview extends Component {
                   />
                 </Col>
               </Row>
-              {/*<Col span={12}>
-                  <DescriptionItem
-                    title="Region"
-                    content={contactInformations.region}
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col span={12}>
-                  <DescriptionItem
-                    title="P.O.Box"
-                    content={contactInformations.pobox}
-                  />
-                </Col>
-                <Col span={12}>
-                  <DescriptionItem
-                    title="Email"
-                    content={contactInformations.email}
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col span={12}>
-                  <DescriptionItem
-                    title="Primary Phone number"
-                    content={contactInformations.primaryPhone}
-                  />
-                </Col>
-                <Col span={12}>
-                  <DescriptionItem
-                    title="Additional Phone number"
-                    content={contactInformations.secondaryPhone}
-                  />
-                </Col>
-              </Row>
               <Divider />
-              <p
-                style={{
-                  color: "black",
-                  fontWeight: "bold",
-                  textAlign: "center"
-                }}
-              >
-                Educational Information
-              </p>
-              <Row>
-                <Col span={12}>
-                  <DescriptionItem
-                    title="Highschool Name"
-                    content={educationalDetails.highSchoolName}
-                  />
-                </Col>
-                <Col span={12}>
-                  <DescriptionItem
-                    title="Desired Field of Study"
-                    content={educationalDetails.fieldOfSpecialization}
-                  />
-                </Col>
-              </Row>
-              <Divider />
+              {/*
               <p
                 style={{
                   color: "black",
@@ -190,14 +132,6 @@ export class Preview extends Component {
               >
                 Document Uploaded
               </p>
-
-              <Row>
-                <Col span={12}>
-                  <DescriptionItem
-                    title="Photo"
-                    content={this.DocumentPreview("photo")}
-                  />
-                </Col>
               </Row>
               <Row>
                 <Col span={12}>
