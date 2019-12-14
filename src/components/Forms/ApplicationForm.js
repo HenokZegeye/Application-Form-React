@@ -138,17 +138,17 @@ export class Main extends Component {
     return (
       <div>
         <div className="steps-action">
-          {this.state.current < steps.length - 1 && (
+          {this.state.current < steps.length - 2 && (
             <Button type="primary" onClick={() => this.next()}>
               Next
             </Button>
           )}
-          {this.state.current === steps.length - 1 && (
+          {this.state.current === steps.length - 2 && (
             <Button
               type="primary"
               onClick={() => message.success("Processing complete!")}
             >
-              Done
+              Final Submission
             </Button>
           )}
           {this.state.current > 0 && (
