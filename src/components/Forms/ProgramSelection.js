@@ -12,8 +12,6 @@ export class ProgramSelection extends Component {
   state = {
     program_type: [],
     field_of_study: [],
-    programData: [],
-    fieldOfStudyData: [],
     fieldOfStudies: fieldOfStudyData[programData[0]],
     secondField: fieldOfStudyData[programData[0]][0],
     selected_program_type_id: "",
@@ -22,43 +20,14 @@ export class ProgramSelection extends Component {
 
   componentDidMount() {
     LModel.findAll("field_of_studies").then(response => {
-      // let fieldOfStudyObj = {};
-      // let undergrad = [];
-      // let grad = [];
       let test_arr = response.data;
       this.setState({ field_of_study: test_arr });
-      // for (let i = 0; i < test_arr.length; i++) {
-      //   if (
-      //     test_arr[i]["program_type"]["program_type_name"] === "Undergraduate"
-      //   ) {
-      //     undergrad.push(test_arr[i]["field_of_study"]);
-      //   } else if (
-      //     test_arr[i]["program_type"]["program_type_name"] === "Graduate"
-      //   ) {
-      //     grad.push(test_arr[i]["field_of_study"]);
-      //   }
-      // }
-      // fieldOfStudyObj.Undergraduate = undergrad;
-      // fieldOfStudyObj.Graduate = grad;
-      // this.setState({ fieldOfStudyData: fieldOfStudyObj });
     });
 
     LModel.findAll("program_types").then(response => {
       console.log("response from program selection findall", response);
-      let arr_program = [];
       let programDataA = response.data;
       this.setState({ program_type: programDataA });
-      // for (let i = 0; i < programDataA.length; i++) {
-      //   const program_type = programDataA[i]["program_type_name"];
-      //   arr_program.push(program_type);
-      // }
-      // this.setState({ programData: arr_program });
-      // this.setState({
-      //   fieldOfStudies: this.state.fieldOfStudyData[arr_program[0]]
-      // });
-      // this.setState({
-      //   secondField: this.state.fieldOfStudyData[arr_program[0][0]]
-      // });
     });
     if (this.props.applicationData.select_program) {
       let component = this;
@@ -67,57 +36,6 @@ export class ProgramSelection extends Component {
       );
     }
   }
-
-  // if (!this.props.applicationData.select_program) {
-  //   LModel.findAll("field_of_studies").then(response => {
-  //     let fieldOfStudyObj = {};
-  //     let undergrad = [];
-  //     let grad = [];
-  //     let test_arr = response.data;
-  //     this.setState({ field_of_study: test_arr });
-  //     for (let i = 0; i < test_arr.length; i++) {
-  //       if (
-  //         test_arr[i]["program_type"]["program_type_name"] === "Undergraduate"
-  //       ) {
-  //         undergrad.push(test_arr[i]["field_of_study"]);
-  //       } else if (
-  //         test_arr[i]["program_type"]["program_type_name"] === "Graduate"
-  //       ) {
-  //         grad.push(test_arr[i]["field_of_study"]);
-  //       }
-  //     }
-  //     fieldOfStudyObj.Undergraduate = undergrad;
-  //     fieldOfStudyObj.Graduate = grad;
-  //     this.setState({ fieldOfStudyData: fieldOfStudyObj });
-  //   });
-  //   LModel.findAll("program_types").then(response => {
-  //     console.log("response from program selection findall", response);
-  //     let arr_program = [];
-  //     let programData = response.data;
-  //     this.setState({ program_type: programData });
-  //     for (let i = 0; i < programData.length; i++) {
-  //       const program_type = programData[i]["program_type_name"];
-  //       arr_program.push(program_type);
-  //     }
-  //     this.setState({ programData: arr_program });
-  //     this.setState({
-  //       fieldOfStudies: this.state.fieldOfStudyData[arr_program[0]]
-  //     });
-  //     this.setState({
-  //       secondField: this.state.fieldOfStudyData[arr_program[0][0]]
-  //     });
-  //   });
-  // } else {
-  //   console.log(
-  //     "applicationdata from program selection",
-  //     this.props.applicationData
-  //   );
-  //   console.log("field ooooooooooof", this.state.fieldOfStudies);
-  //   let component = this;
-  //   component.props.form.setFieldsValue(
-  //     this.props.applicationData.select_program
-  //   );
-  // }
 
   componentDidUpdate() {
     console.log("applicaiton data", this.props);
@@ -135,6 +53,10 @@ export class ProgramSelection extends Component {
       if (value === element["program_type_name"]) {
         this.setState({ selected_program_type_id: element["id"] }, () => {
           console.log("iiiiiiddddd", this.state.selected_program_type_id);
+          this.props.get_ids(
+            "program_type_id",
+            this.state.selected_program_type_id
+          );
         });
       }
     }
@@ -149,11 +71,14 @@ export class ProgramSelection extends Component {
       if (value === element["field_of_study"]) {
         this.setState({ selected_field_of_study_id: element["id"] }, () => {
           console.log("iiiiiidddddfff", this.state.selected_field_of_study_id);
+          this.props.get_ids(
+            "field_of_study_id",
+            this.state.selected_field_of_study_id
+          );
         });
       }
     }
   };
-
   render() {
     const { fieldOfStudies } = this.state;
     const { getFieldDecorator } = this.props.form;

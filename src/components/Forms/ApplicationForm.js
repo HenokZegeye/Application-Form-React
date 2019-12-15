@@ -38,7 +38,10 @@ export class Main extends Component {
     transcript_file: {},
     g12_exam_file: {},
     contact_info: {},
-    loaded: false
+    loaded: false,
+    ids: {},
+    applicant_id: "",
+    program_id: ""
   };
 
   onUpdate = attached_documents => {
@@ -48,6 +51,20 @@ export class Main extends Component {
       "attached docs state from application form...",
       this.state.attached_documents
     );
+  };
+
+  get_ids = (type, id) => {
+    console.log("typpppe", type);
+    let ids = this.state.ids;
+    ids[type] = id;
+    let applicationData = this.state.applicationData;
+    this.setState({ ids }, () => {
+      applicationData.ids = this.state.ids;
+      this.setState({ applicationData });
+    });
+
+    console.log("type", type);
+    console.log("id", id);
   };
 
   next() {
@@ -121,18 +138,38 @@ export class Main extends Component {
     );
     const applicationData = this.state.applicationData;
     const contact_info = applicationData.contact_info;
-    const select_program = applicationData.select_program;
+    let select_program = {};
+    const program_type_id = applicationData.ids.program_type_id;
+    const field_of_study_id = applicationData.ids.field_of_study_id;
+    const mode_of_attendance = applicationData.select_program.modeOfAttendance;
+    select_program = {
+      mode_of_attendance: mode_of_attendance,
+      program_type_id: program_type_id,
+      field_of_study_id: field_of_study_id
+    };
+
     console.log("contact info form submit", contact_info);
     console.log("select program form submit", select_program);
 
-    // LModel.create("program_types")
-
     LModel.create("applicants", contact_info).then(response => {
       console.log("response from applicant created", response);
-    });
-
-    LModel.create("programs", select_program).then(response => {
-      console.log("response from program creation", response);
+      this.setState({ applicant_id: response.data.id });
+      LModel.create("programs", select_program).then(response => {
+        console.log("response from program creation", response);
+        this.setState({ program_id: response.data.id });
+        let enrollmentApplicationData = {};
+        enrollmentApplicationData = {
+          status: "Inprogress",
+          applicant_id: this.state.applicant_id,
+          program_id: this.state.program_id
+        };
+        LModel.create(
+          "enrollment_applications",
+          enrollmentApplicationData
+        ).then(response => {
+          console.log("response from program creation", response);
+        });
+      });
     });
   };
 
@@ -192,6 +229,7 @@ export class Main extends Component {
         return (
           <div>
             <ProgramSelection
+              get_ids={this.get_ids}
               applicationData={this.state.applicationData}
               form={this.props.form}
             />
