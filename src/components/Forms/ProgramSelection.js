@@ -21,49 +21,51 @@ export class ProgramSelection extends Component {
   };
 
   componentDidMount() {
-    LModel.findAll("field_of_studies").then(response => {
-      let fieldOfStudyObj = {};
-      let undergrad = [];
-      let grad = [];
-      let test_arr = response.data;
-      this.setState({ field_of_study: test_arr });
-      for (let i = 0; i < test_arr.length; i++) {
-        if (
-          test_arr[i]["program_type"]["program_type_name"] === "Undergraduate"
-        ) {
-          undergrad.push(test_arr[i]["field_of_study"]);
-        } else if (
-          test_arr[i]["program_type"]["program_type_name"] === "Graduate"
-        ) {
-          grad.push(test_arr[i]["field_of_study"]);
+    if (!this.props.applicationData.select_program) {
+      LModel.findAll("field_of_studies").then(response => {
+        let fieldOfStudyObj = {};
+        let undergrad = [];
+        let grad = [];
+        let test_arr = response.data;
+        this.setState({ field_of_study: test_arr });
+        for (let i = 0; i < test_arr.length; i++) {
+          if (
+            test_arr[i]["program_type"]["program_type_name"] === "Undergraduate"
+          ) {
+            undergrad.push(test_arr[i]["field_of_study"]);
+          } else if (
+            test_arr[i]["program_type"]["program_type_name"] === "Graduate"
+          ) {
+            grad.push(test_arr[i]["field_of_study"]);
+          }
         }
-      }
-      fieldOfStudyObj.Undergraduate = undergrad;
-      fieldOfStudyObj.Graduate = grad;
-      this.setState({ fieldOfStudyData: fieldOfStudyObj });
-    });
-    LModel.findAll("program_types").then(response => {
-      console.log("response from program selection findall", response);
-      let arr_program = [];
-      let programData = response.data;
-      this.setState({ program_type: programData });
-      for (let i = 0; i < programData.length; i++) {
-        const program_type = programData[i]["program_type_name"];
-        arr_program.push(program_type);
-      }
-      this.setState({ programData: arr_program });
-      this.setState({
-        fieldOfStudies: this.state.fieldOfStudyData[arr_program[0]]
+        fieldOfStudyObj.Undergraduate = undergrad;
+        fieldOfStudyObj.Graduate = grad;
+        this.setState({ fieldOfStudyData: fieldOfStudyObj });
       });
-      this.setState({
-        secondField: this.state.fieldOfStudyData[arr_program[0][0]]
+      LModel.findAll("program_types").then(response => {
+        console.log("response from program selection findall", response);
+        let arr_program = [];
+        let programData = response.data;
+        this.setState({ program_type: programData });
+        for (let i = 0; i < programData.length; i++) {
+          const program_type = programData[i]["program_type_name"];
+          arr_program.push(program_type);
+        }
+        this.setState({ programData: arr_program });
+        this.setState({
+          fieldOfStudies: this.state.fieldOfStudyData[arr_program[0]]
+        });
+        this.setState({
+          secondField: this.state.fieldOfStudyData[arr_program[0][0]]
+        });
       });
-    });
-    if (this.props.applicationData.select_program) {
+    } else {
       console.log(
         "applicationdata from program selection",
         this.props.applicationData
       );
+      console.log("field ooooooooooof", this.state.fieldOfStudies);
       let component = this;
       component.props.form.setFieldsValue(
         this.props.applicationData.select_program
@@ -75,6 +77,10 @@ export class ProgramSelection extends Component {
   }
 
   handleProgramChange = value => {
+    this.setState({
+      fieldOfStudies: this.state.fieldOfStudyData[value],
+      secondField: this.state.fieldOfStudyData[value][0]
+    });
     console.log("from handle program change", value);
     console.log("program type frrrrrrrrrrr", this.state.program_type);
     for (let i = 0; i < this.state.program_type.length; i++) {
@@ -85,17 +91,12 @@ export class ProgramSelection extends Component {
         });
       }
     }
-    this.setState({
-      fieldOfStudies: this.state.fieldOfStudyData[value],
-      secondField: this.state.fieldOfStudyData[value][0]
-    });
   };
 
   onSecondFieldChange = value => {
     this.setState({
       secondField: value
     });
-    console.log("from handle field change", value);
     for (let i = 0; i < this.state.field_of_study.length; i++) {
       const element = this.state.field_of_study[i];
       if (value === element["field_of_study"]) {
