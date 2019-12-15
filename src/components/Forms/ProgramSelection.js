@@ -3,83 +3,130 @@ import { Form, Select, Row, Col, Input } from "antd";
 import LModel from "../../services/api";
 const FormItem = Form.Item;
 const { Option, OptGroup } = Select;
-// const programData = ["Undergraduate", "Graduate"];
-// const fieldOfStudyData = {
-//   Undergraduate: ["IT and Systems", "Software Engineering"],
-//   Graduate: ["IT Management", "System Engineering"]
-// };
+const programData = ["Undergraduate", "Graduate"];
+const fieldOfStudyData = {
+  Undergraduate: ["IT and Systems", "Software Engineering"],
+  Graduate: ["IT Management", "System Engineering"]
+};
 export class ProgramSelection extends Component {
   state = {
     program_type: [],
     field_of_study: [],
     programData: [],
     fieldOfStudyData: [],
-    fieldOfStudies: [],
-    secondField: [],
+    fieldOfStudies: fieldOfStudyData[programData[0]],
+    secondField: fieldOfStudyData[programData[0]][0],
     selected_program_type_id: "",
     selected_field_of_study_id: ""
   };
 
   componentDidMount() {
-    if (!this.props.applicationData.select_program) {
-      LModel.findAll("field_of_studies").then(response => {
-        let fieldOfStudyObj = {};
-        let undergrad = [];
-        let grad = [];
-        let test_arr = response.data;
-        this.setState({ field_of_study: test_arr });
-        for (let i = 0; i < test_arr.length; i++) {
-          if (
-            test_arr[i]["program_type"]["program_type_name"] === "Undergraduate"
-          ) {
-            undergrad.push(test_arr[i]["field_of_study"]);
-          } else if (
-            test_arr[i]["program_type"]["program_type_name"] === "Graduate"
-          ) {
-            grad.push(test_arr[i]["field_of_study"]);
-          }
-        }
-        fieldOfStudyObj.Undergraduate = undergrad;
-        fieldOfStudyObj.Graduate = grad;
-        this.setState({ fieldOfStudyData: fieldOfStudyObj });
-      });
-      LModel.findAll("program_types").then(response => {
-        console.log("response from program selection findall", response);
-        let arr_program = [];
-        let programData = response.data;
-        this.setState({ program_type: programData });
-        for (let i = 0; i < programData.length; i++) {
-          const program_type = programData[i]["program_type_name"];
-          arr_program.push(program_type);
-        }
-        this.setState({ programData: arr_program });
-        this.setState({
-          fieldOfStudies: this.state.fieldOfStudyData[arr_program[0]]
-        });
-        this.setState({
-          secondField: this.state.fieldOfStudyData[arr_program[0][0]]
-        });
-      });
-    } else {
-      console.log(
-        "applicationdata from program selection",
-        this.props.applicationData
-      );
-      console.log("field ooooooooooof", this.state.fieldOfStudies);
+    LModel.findAll("field_of_studies").then(response => {
+      // let fieldOfStudyObj = {};
+      // let undergrad = [];
+      // let grad = [];
+      let test_arr = response.data;
+      this.setState({ field_of_study: test_arr });
+      // for (let i = 0; i < test_arr.length; i++) {
+      //   if (
+      //     test_arr[i]["program_type"]["program_type_name"] === "Undergraduate"
+      //   ) {
+      //     undergrad.push(test_arr[i]["field_of_study"]);
+      //   } else if (
+      //     test_arr[i]["program_type"]["program_type_name"] === "Graduate"
+      //   ) {
+      //     grad.push(test_arr[i]["field_of_study"]);
+      //   }
+      // }
+      // fieldOfStudyObj.Undergraduate = undergrad;
+      // fieldOfStudyObj.Graduate = grad;
+      // this.setState({ fieldOfStudyData: fieldOfStudyObj });
+    });
+
+    LModel.findAll("program_types").then(response => {
+      console.log("response from program selection findall", response);
+      let arr_program = [];
+      let programDataA = response.data;
+      this.setState({ program_type: programDataA });
+      // for (let i = 0; i < programDataA.length; i++) {
+      //   const program_type = programDataA[i]["program_type_name"];
+      //   arr_program.push(program_type);
+      // }
+      // this.setState({ programData: arr_program });
+      // this.setState({
+      //   fieldOfStudies: this.state.fieldOfStudyData[arr_program[0]]
+      // });
+      // this.setState({
+      //   secondField: this.state.fieldOfStudyData[arr_program[0][0]]
+      // });
+    });
+    if (this.props.applicationData.select_program) {
       let component = this;
       component.props.form.setFieldsValue(
         this.props.applicationData.select_program
       );
     }
   }
+
+  // if (!this.props.applicationData.select_program) {
+  //   LModel.findAll("field_of_studies").then(response => {
+  //     let fieldOfStudyObj = {};
+  //     let undergrad = [];
+  //     let grad = [];
+  //     let test_arr = response.data;
+  //     this.setState({ field_of_study: test_arr });
+  //     for (let i = 0; i < test_arr.length; i++) {
+  //       if (
+  //         test_arr[i]["program_type"]["program_type_name"] === "Undergraduate"
+  //       ) {
+  //         undergrad.push(test_arr[i]["field_of_study"]);
+  //       } else if (
+  //         test_arr[i]["program_type"]["program_type_name"] === "Graduate"
+  //       ) {
+  //         grad.push(test_arr[i]["field_of_study"]);
+  //       }
+  //     }
+  //     fieldOfStudyObj.Undergraduate = undergrad;
+  //     fieldOfStudyObj.Graduate = grad;
+  //     this.setState({ fieldOfStudyData: fieldOfStudyObj });
+  //   });
+  //   LModel.findAll("program_types").then(response => {
+  //     console.log("response from program selection findall", response);
+  //     let arr_program = [];
+  //     let programData = response.data;
+  //     this.setState({ program_type: programData });
+  //     for (let i = 0; i < programData.length; i++) {
+  //       const program_type = programData[i]["program_type_name"];
+  //       arr_program.push(program_type);
+  //     }
+  //     this.setState({ programData: arr_program });
+  //     this.setState({
+  //       fieldOfStudies: this.state.fieldOfStudyData[arr_program[0]]
+  //     });
+  //     this.setState({
+  //       secondField: this.state.fieldOfStudyData[arr_program[0][0]]
+  //     });
+  //   });
+  // } else {
+  //   console.log(
+  //     "applicationdata from program selection",
+  //     this.props.applicationData
+  //   );
+  //   console.log("field ooooooooooof", this.state.fieldOfStudies);
+  //   let component = this;
+  //   component.props.form.setFieldsValue(
+  //     this.props.applicationData.select_program
+  //   );
+  // }
+
   componentDidUpdate() {
     console.log("applicaiton data", this.props);
   }
 
   handleProgramChange = value => {
     this.setState({
-      fieldOfStudies: this.state.fieldOfStudyData[value],
-      secondField: this.state.fieldOfStudyData[value][0]
+      fieldOfStudies: fieldOfStudyData[value],
+      secondField: fieldOfStudyData[value][0]
     });
     console.log("from handle program change", value);
     console.log("program type frrrrrrrrrrr", this.state.program_type);
@@ -108,6 +155,7 @@ export class ProgramSelection extends Component {
   };
 
   render() {
+    const { fieldOfStudies } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
@@ -124,7 +172,7 @@ export class ProgramSelection extends Component {
                   style={{ width: 300 }}
                   onChange={this.handleProgramChange}
                 >
-                  {this.state.programData.map(program => (
+                  {programData.map(program => (
                     <Option key={program}>{program}</Option>
                   ))}
                 </Select>
@@ -140,7 +188,7 @@ export class ProgramSelection extends Component {
                   style={{ width: 300 }}
                   onChange={this.onSecondFieldChange}
                 >
-                  {this.state.fieldOfStudies.map(fieldOfStudy => (
+                  {fieldOfStudies.map(fieldOfStudy => (
                     <Option key={fieldOfStudy}>{fieldOfStudy}</Option>
                   ))}
                 </Select>
