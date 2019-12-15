@@ -10,10 +10,14 @@ const { Option, OptGroup } = Select;
 // };
 export class ProgramSelection extends Component {
   state = {
+    program_type: [],
+    field_of_study: [],
     programData: [],
     fieldOfStudyData: [],
     fieldOfStudies: [],
-    secondField: []
+    secondField: [],
+    selected_program_type_id: "",
+    selected_field_of_study_id: ""
   };
 
   componentDidMount() {
@@ -22,6 +26,7 @@ export class ProgramSelection extends Component {
       let undergrad = [];
       let grad = [];
       let test_arr = response.data;
+      this.setState({ field_of_study: test_arr });
       for (let i = 0; i < test_arr.length; i++) {
         if (
           test_arr[i]["program_type"]["program_type_name"] === "Undergraduate"
@@ -41,6 +46,7 @@ export class ProgramSelection extends Component {
       console.log("response from program selection findall", response);
       let arr_program = [];
       let programData = response.data;
+      this.setState({ program_type: programData });
       for (let i = 0; i < programData.length; i++) {
         const program_type = programData[i]["program_type_name"];
         arr_program.push(program_type);
@@ -69,6 +75,16 @@ export class ProgramSelection extends Component {
   }
 
   handleProgramChange = value => {
+    console.log("from handle program change", value);
+    console.log("program type frrrrrrrrrrr", this.state.program_type);
+    for (let i = 0; i < this.state.program_type.length; i++) {
+      const element = this.state.program_type[i];
+      if (value === element["program_type_name"]) {
+        this.setState({ selected_program_type_id: element["id"] }, () => {
+          console.log("iiiiiiddddd", this.state.selected_program_type_id);
+        });
+      }
+    }
     this.setState({
       fieldOfStudies: this.state.fieldOfStudyData[value],
       secondField: this.state.fieldOfStudyData[value][0]
@@ -79,6 +95,15 @@ export class ProgramSelection extends Component {
     this.setState({
       secondField: value
     });
+    console.log("from handle field change", value);
+    for (let i = 0; i < this.state.field_of_study.length; i++) {
+      const element = this.state.field_of_study[i];
+      if (value === element["field_of_study"]) {
+        this.setState({ selected_field_of_study_id: element["id"] }, () => {
+          console.log("iiiiiidddddfff", this.state.selected_field_of_study_id);
+        });
+      }
+    }
   };
 
   render() {
