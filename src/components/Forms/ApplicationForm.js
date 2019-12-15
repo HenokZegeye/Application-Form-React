@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Steps, Button, message, Form, Col, Row } from "antd";
+import LModel from "../../services/api";
 import Logo from "../Logo";
 import ProgramSelection from "./ProgramSelection";
 import ContactInfo from "./ContactInfo";
@@ -60,10 +61,11 @@ export class Main extends Component {
               fields.Select_Program
             );
             let applicationData = this.state.applicationData;
-            this.setState({ current });
+
             this.setState({ select_program }, () => {
               applicationData.select_program = this.state.select_program;
               this.setState({ applicationData });
+              this.setState({ current });
             });
           }
         }
@@ -112,6 +114,28 @@ export class Main extends Component {
     this.setState({ current });
   }
 
+  form_submit = () => {
+    console.log(
+      "application form from form submit",
+      this.state.applicationData
+    );
+    const applicationData = this.state.applicationData;
+    const contact_info = applicationData.contact_info;
+    const select_program = applicationData.select_program;
+    console.log("contact info form submit", contact_info);
+    console.log("select program form submit", select_program);
+
+    // LModel.create("program_types")
+
+    LModel.create("applicants", contact_info).then(response => {
+      console.log("response from applicant created", response);
+    });
+
+    LModel.create("programs", select_program).then(response => {
+      console.log("response from program creation", response);
+    });
+  };
+
   onChange = current => {
     console.log("onChange:", current);
     this.setState({ current });
@@ -146,7 +170,8 @@ export class Main extends Component {
           {this.state.current === steps.length - 2 && (
             <Button
               type="primary"
-              onClick={() => message.success("Processing complete!")}
+              // onClick={() => message.success("Processing complete!")}
+              onClick={() => this.form_submit()}
             >
               Final Submission
             </Button>
