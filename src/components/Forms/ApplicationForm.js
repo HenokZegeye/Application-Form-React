@@ -168,6 +168,20 @@ export class Main extends Component {
           enrollmentApplicationData
         ).then(response => {
           console.log("response from program creation", response);
+          let attached_documents = this.state.applicationData
+            .attached_documents;
+          let uploaded = {};
+          for (var key in attached_documents) {
+            uploaded = {
+              enrollment_application_id: response.data.id,
+              url: attached_documents[key][0]["url"],
+              doc_type: attached_documents[key][0]["type"],
+              uid: attached_documents[key][0]["uid"]
+            };
+            LModel.create("uploadeds", uploaded).then(response => {
+              console.log("response from uploaded ", response);
+            });
+          }
         });
       });
     });
