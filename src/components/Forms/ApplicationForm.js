@@ -166,52 +166,62 @@ export class Main extends Component {
     console.log("contact info form submit", contact_info);
     console.log("select program form submit", select_program);
 
-    LModel.create("applicants", contact_info).then(response => {
-      console.log("response from applicant created", response);
-      this.setState({ applicant_id: response.data.id });
-      LModel.create("programs", select_program).then(response => {
-        console.log("response from program creation", response);
-        this.setState({ program_id: response.data.id });
-        let enrollmentApplicationData = {};
-        enrollmentApplicationData = {
-          status: "Inprogress",
-          applicant_id: this.state.applicant_id,
-          program_id: this.state.program_id
-        };
-        LModel.create("enrollment_applications", enrollmentApplicationData)
-          .then(response => {
-            console.log("response from program creation", response);
-            let attached_documents = this.state.applicationData
-              .attached_documents;
-            let uploaded = {};
-            for (var key in attached_documents) {
-              uploaded = {
-                enrollment_application_id: response.data.id,
-                url: attached_documents[key][0]["url"],
-                doc_type: attached_documents[key][0]["type"],
-                uid: attached_documents[key][0]["uid"]
-              };
-              LModel.create("uploadeds", uploaded)
-                .then(response => {
-                  console.log("response from uploaded ", response);
-                  this.setState({ current: this.state.current + 1 });
-                })
-                .catch(err => {
-                  console.log("Error", err);
-                  let statusCode = err.response.status;
-                  let responseMsg = ResponseCodes.getResponseMessag(statusCode);
-                  this.error(responseMsg);
-                });
-            }
-          })
-          .catch(err => {
-            console.log("Error", err);
-            let statusCode = err.response.status;
-            let responseMsg = ResponseCodes.getResponseMessag(statusCode);
-            this.error(responseMsg);
-          });
+    LModel.create("applicants", contact_info)
+      .then(response => {
+        console.log("response from applicant created", response);
+        this.setState({ applicant_id: response.data.id });
+        LModel.create("programs", select_program).then(response => {
+          console.log("response from program creation", response);
+          this.setState({ program_id: response.data.id });
+          let enrollmentApplicationData = {};
+          enrollmentApplicationData = {
+            status: "Inprogress",
+            applicant_id: this.state.applicant_id,
+            program_id: this.state.program_id
+          };
+          LModel.create("enrollment_applications", enrollmentApplicationData)
+            .then(response => {
+              console.log("response from program creation", response);
+              let attached_documents = this.state.applicationData
+                .attached_documents;
+              let uploaded = {};
+              for (var key in attached_documents) {
+                uploaded = {
+                  enrollment_application_id: response.data.id,
+                  url: attached_documents[key][0]["url"],
+                  doc_type: attached_documents[key][0]["type"],
+                  uid: attached_documents[key][0]["uid"]
+                };
+                LModel.create("uploadeds", uploaded)
+                  .then(response => {
+                    console.log("response from uploaded ", response);
+                  })
+                  .catch(err => {
+                    console.log("Error", err);
+                    let statusCode = err.response.status;
+                    let responseMsg = ResponseCodes.getResponseMessag(
+                      statusCode
+                    );
+                    this.error(responseMsg);
+                  });
+              }
+              let current = this.state.current + 1;
+              this.setState({ current });
+            })
+            .catch(err => {
+              console.log("Error", err);
+              let statusCode = err.response.status;
+              let responseMsg = ResponseCodes.getResponseMessag(statusCode);
+              this.error(responseMsg);
+            });
+        });
+      })
+      .catch(err => {
+        console.log("Error", err);
+        let statusCode = err.response.status;
+        let responseMsg = ResponseCodes.getResponseMessag(statusCode);
+        this.error(responseMsg);
       });
-    });
   };
 
   onChange = current => {
@@ -319,52 +329,8 @@ export class Main extends Component {
         break;
     }
   };
-
   render() {
     const { current } = this.state;
-
-    // let steps = [
-    //   {
-    //     title: "ProgramSelection",
-    //     content: (
-    //       <ProgramSelection
-    //         applicationData={this.state.applicationData}
-    //         form={this.props.form}
-    //       />
-    //     )
-    //   },
-    //   {
-    //     title: "DocumentsUpload",
-    //     content: (
-    //       <DocumentsUpload
-    //         applicationData={this.state.applicationData}
-    //         form={this.props.form}
-    //         enrollmentApplicationId={this.state.enrollmentApplicationId}
-    //       />
-    //     )
-    //   },
-    //   {
-    //     title: "ContactInfo",
-    //     content: (
-    //       <ContactInfo
-    //         applicationData={this.state.applicationData}
-    //         form={this.props.form}
-    //         enrollmentApplicationId={this.state.enrollmentApplicationId}
-    //       />
-    //     )
-    //   },
-    //   {
-    //     title: "Preview",
-    //     content: (
-    //       <Preview
-    //         applicationData={this.state.applicationData}
-    //         form={this.props.form}
-    //         enrollmentApplicationId={this.state.enrollmentApplicationId}
-    //       />
-    //     )
-    //   }
-    // ];
-
     return (
       <div>
         <div className="text-center">
@@ -383,16 +349,6 @@ export class Main extends Component {
               <div>{this.renderSteps(current)}</div>
             </Col>
             <Col span={12} offset={5}>
-              {/* <div>
-                {steps.map(({ title, content }, i) => (
-                  <div
-                    key={title}
-                    className={i === this.state.current ? "foo fade-in" : "foo"}
-                  >
-                    {content}
-                  </div>
-                ))}
-              </div> */}
               <div>{this.renderComponents(current)}</div>
               {this.renderStepActions()}
             </Col>
