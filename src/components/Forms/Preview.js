@@ -1,5 +1,13 @@
 import React, { Component } from "react";
 import { Divider, Col, Row, Upload, Modal } from "antd";
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
 const DescriptionItem = ({ title, content }) => {
   return (
     <div>
@@ -28,11 +36,71 @@ const DescriptionItem = ({ title, content }) => {
 };
 export class Preview extends Component {
   state = {
-    applicationData: this.props.applicationData
+    applicationData: this.props.applicationData,
+    transcriptInfo: [],
+    g12NationalExamInfo: []
   };
   componentDidMount() {
     console.log("applicatin data", this.state.applicationData);
+    const documents = this.state.applicationData.attached_documents;
+
+    for (var key in documents) {
+      if (key === "transcript") {
+        const list = [];
+        list.push({
+          uid: documents[key][0].uid,
+          name: documents[key][0].name,
+          status: "done",
+          url: documents[key][0].url,
+          document_id: documents[key][0].document_id
+        });
+        this.setState({ transcriptInfo: list });
+      } else if (key === "g12Exam") {
+        const list = [];
+        list.push({
+          uid: documents[key][0].uid,
+          name: documents[key][0].name,
+          status: "done",
+          url: documents[key][0].url,
+          document_id: documents[key][0].document_id
+        });
+        this.setState({ g12NationalExamInfo: list });
+      }
+    }
   }
+
+  DocumentPreview = type => {
+    switch (type) {
+      case "transcript":
+        return (
+          <div>
+            <Upload
+              showUploadList={{
+                showRemoveIcon: false,
+                showPreviewIcon: true
+              }}
+              name="file"
+              fileList={this.state.transcriptInfo}
+            />
+          </div>
+        );
+      case "g12Exam":
+        return (
+          <div>
+            <Upload
+              showUploadList={{
+                showRemoveIcon: false,
+                showPreviewIcon: true
+              }}
+              name="file"
+              fileList={this.state.g12NationalExamInfo}
+            />
+          </div>
+        );
+      default:
+        break;
+    }
+  };
   render() {
     const applicationData = this.props.applicationData;
     console.log("contact info from preview", applicationData.contact_info);
@@ -122,7 +190,7 @@ export class Preview extends Component {
                 </Col>
               </Row>
               <Divider />
-              {/*
+
               <p
                 style={{
                   color: "black",
@@ -132,7 +200,6 @@ export class Preview extends Component {
               >
                 Document Uploaded
               </p>
-              </Row>
               <Row>
                 <Col span={12}>
                   <DescriptionItem
@@ -140,13 +207,15 @@ export class Preview extends Component {
                     content={this.DocumentPreview("transcript")}
                   />
                 </Col>
+              </Row>
+              <Row>
                 <Col span={12}>
                   <DescriptionItem
-                    title="Motivation Letter"
-                    content={this.DocumentPreview("motivation-letter")}
+                    title="Grade 12 Exam Result"
+                    content={this.DocumentPreview("g12Exam")}
                   />
                 </Col>
-              </Row> */}
+              </Row>
             </div>
           </Col>
         </Row>

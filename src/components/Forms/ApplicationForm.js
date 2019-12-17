@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Steps, Button, message, Form, Col, Row } from "antd";
 import LModel from "../../services/api";
+import ResponseCodes from "../../utils/ResponseCodes";
 import Logo from "../Logo";
 import ProgramSelection from "./ProgramSelection";
 import ContactInfo from "./ContactInfo";
 import DocumentsUpload from "./DocumentsUpload";
 import Preview from "./Preview";
+import Confirm from "./Confirm";
 const { Step } = Steps;
 
 const steps = [
@@ -42,6 +44,12 @@ export class Main extends Component {
     ids: {},
     applicant_id: "",
     program_id: ""
+  };
+  success = msg => {
+    message.success(msg);
+  };
+  error = msg => {
+    message.error(msg);
   };
 
   onUpdate = attached_documents => {
@@ -131,6 +139,13 @@ export class Main extends Component {
     this.setState({ current });
   }
 
+  finalStep() {
+    console.log("currentttttttt", this.state.current);
+    const current = this.state.current + 1;
+    this.setState({ current });
+    console.log("currentttttttt updated", this.state.current);
+  }
+
   form_submit = () => {
     console.log(
       "application form from form submit",
@@ -163,26 +178,38 @@ export class Main extends Component {
           applicant_id: this.state.applicant_id,
           program_id: this.state.program_id
         };
-        LModel.create(
-          "enrollment_applications",
-          enrollmentApplicationData
-        ).then(response => {
-          console.log("response from program creation", response);
-          let attached_documents = this.state.applicationData
-            .attached_documents;
-          let uploaded = {};
-          for (var key in attached_documents) {
-            uploaded = {
-              enrollment_application_id: response.data.id,
-              url: attached_documents[key][0]["url"],
-              doc_type: attached_documents[key][0]["type"],
-              uid: attached_documents[key][0]["uid"]
-            };
-            LModel.create("uploadeds", uploaded).then(response => {
-              console.log("response from uploaded ", response);
-            });
-          }
-        });
+        LModel.create("enrollment_applications", enrollmentApplicationData)
+          .then(response => {
+            console.log("response from program creation", response);
+            let attached_documents = this.state.applicationData
+              .attached_documents;
+            let uploaded = {};
+            for (var key in attached_documents) {
+              uploaded = {
+                enrollment_application_id: response.data.id,
+                url: attached_documents[key][0]["url"],
+                doc_type: attached_documents[key][0]["type"],
+                uid: attached_documents[key][0]["uid"]
+              };
+              LModel.create("uploadeds", uploaded)
+                .then(response => {
+                  console.log("response from uploaded ", response);
+                  this.setState({ current: this.state.current + 1 });
+                })
+                .catch(err => {
+                  console.log("Error", err);
+                  let statusCode = err.response.status;
+                  let responseMsg = ResponseCodes.getResponseMessag(statusCode);
+                  this.error(responseMsg);
+                });
+            }
+          })
+          .catch(err => {
+            console.log("Error", err);
+            let statusCode = err.response.status;
+            let responseMsg = ResponseCodes.getResponseMessag(statusCode);
+            this.error(responseMsg);
+          });
       });
     });
   };
@@ -273,6 +300,15 @@ export class Main extends Component {
         return (
           <div>
             <Preview
+              applicationData={this.state.applicationData}
+              form={this.props.form}
+            />
+          </div>
+        );
+      case 4:
+        return (
+          <div>
+            <Confirm
               applicationData={this.state.applicationData}
               form={this.props.form}
             />

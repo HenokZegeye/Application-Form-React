@@ -90,13 +90,13 @@ export class DocumentsUpload extends Component {
         console.log("Transcript document delteded succesfulyu", response);
         newFileList.splice(index, 1);
         this.setState({ transcript_file_list: newFileList });
-        LModel.deleteFile("documents", transcript_name)
-          .then(response => {
-            console.log("transcript file successfuly delted", response);
-          })
-          .catch(err => {
-            console.log("unable to delete trascript file", err);
-          });
+        // LModel.deleteFiles("documents", transcript_name)
+        //   .then(response => {
+        //     console.log("transcript file successfuly delted", response);
+        //   })
+        //   .catch(err => {
+        //     console.log("unable to delete trascript file", err);
+        //   });
       })
       .catch(err => {
         console.log("unable to delete transcript document ", err);
@@ -120,13 +120,13 @@ export class DocumentsUpload extends Component {
         console.log("G12 exam result document delteded succesfulyu", response);
         newFileList.splice(index, 1);
         this.setState({ g12NationalExam_file_list: newFileList });
-        LModel.deleteFile("documents", g12_exam_result_name)
-          .then(response => {
-            console.log("G12 exam result file successfuly delted", response);
-          })
-          .catch(err => {
-            console.log("unable to delete g12 exam result file", err);
-          });
+        // LModel.deleteFiles("documents", g12_exam_result_name)
+        //   .then(response => {
+        //     console.log("G12 exam result file successfuly delted", response);
+        //   })
+        //   .catch(err => {
+        //     console.log("unable to delete g12 exam result file", err);
+        //   });
       })
       .catch(err => {
         console.log("unable to delete g12 exam result document ", err);
