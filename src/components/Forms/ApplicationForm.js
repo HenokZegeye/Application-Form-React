@@ -8,6 +8,7 @@ import ContactInfo from "./ContactInfo";
 import DocumentsUpload from "./DocumentsUpload";
 import Preview from "./Preview";
 import Confirm from "./Confirm";
+import GraduateDocumentsUpload from "./GraduateDocumentsUpload";
 const { Step } = Steps;
 
 const steps = [
@@ -286,7 +287,21 @@ export class Main extends Component {
             />
           </div>
         );
-      case 1:
+      case 1: {
+        if (
+          this.state.applicationData.select_program.programType === "Graduate"
+        ) {
+          return (
+            <div>
+              <GraduateDocumentsUpload
+                onUpdate={this.onUpdate}
+                applicationData={this.state.applicationData}
+                form={this.props.form}
+                enrollmentApplicationId={this.state.enrollmentApplicationId}
+              />
+            </div>
+          );
+        }
         return (
           <div>
             <DocumentsUpload
@@ -297,6 +312,8 @@ export class Main extends Component {
             />
           </div>
         );
+      }
+
       case 2:
         return (
           <div>
