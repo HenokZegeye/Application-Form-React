@@ -38,8 +38,6 @@ export class Main extends Component {
     applicationData: {},
     select_program: {},
     attached_documents: {},
-    transcript_file: {},
-    g12_exam_file: {},
     contact_info: {},
     loaded: false,
     ids: {},

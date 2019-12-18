@@ -38,14 +38,16 @@ export class Preview extends Component {
   state = {
     applicationData: this.props.applicationData,
     transcriptInfo: [],
-    g12NationalExamInfo: []
+    g12NationalExamInfo: [],
+    baDegreeInfo: [],
+    motivationLetterInfo: []
   };
   componentDidMount() {
     console.log("applicatin data", this.state.applicationData);
     const documents = this.state.applicationData.attached_documents;
 
     for (var key in documents) {
-      if (key === "transcript") {
+      if (key === "baDegree") {
         const list = [];
         list.push({
           uid: documents[key][0].uid,
@@ -54,7 +56,7 @@ export class Preview extends Component {
           url: documents[key][0].url,
           document_id: documents[key][0].document_id
         });
-        this.setState({ transcriptInfo: list });
+        this.setState({ baDegreeInfo: list });
       } else if (key === "g12Exam") {
         const list = [];
         list.push({
@@ -65,12 +67,45 @@ export class Preview extends Component {
           document_id: documents[key][0].document_id
         });
         this.setState({ g12NationalExamInfo: list });
+      } else if (key === "transcript") {
+        const list = [];
+        list.push({
+          uid: documents[key][0].uid,
+          name: documents[key][0].name,
+          status: "done",
+          url: documents[key][0].url,
+          document_id: documents[key][0].document_id
+        });
+        this.setState({ transcriptInfo: list });
+      } else if (key === "motivationLetter") {
+        const list = [];
+        list.push({
+          uid: documents[key][0].uid,
+          name: documents[key][0].name,
+          status: "done",
+          url: documents[key][0].url,
+          document_id: documents[key][0].document_id
+        });
+        this.setState({ motivationLetterInfo: list });
       }
     }
   }
 
   DocumentPreview = type => {
     switch (type) {
+      case "baDegree":
+        return (
+          <div>
+            <Upload
+              showUploadList={{
+                showRemoveIcon: false,
+                showPreviewIcon: true
+              }}
+              name="file"
+              fileList={this.state.baDegreeInfo}
+            />
+          </div>
+        );
       case "transcript":
         return (
           <div>
@@ -94,6 +129,19 @@ export class Preview extends Component {
               }}
               name="file"
               fileList={this.state.g12NationalExamInfo}
+            />
+          </div>
+        );
+      case "motivationLetter":
+        return (
+          <div>
+            <Upload
+              showUploadList={{
+                showRemoveIcon: false,
+                showPreviewIcon: true
+              }}
+              name="file"
+              fileList={this.state.motivationLetterInfo}
             />
           </div>
         );
@@ -202,18 +250,34 @@ export class Preview extends Component {
               </p>
               <Row>
                 <Col span={12}>
-                  <DescriptionItem
-                    title="Transcript"
-                    content={this.DocumentPreview("transcript")}
-                  />
+                  {select_program.programType === "Undergraduate" && (
+                    <DescriptionItem
+                      title="Transcript"
+                      content={this.DocumentPreview("transcript")}
+                    />
+                  )}
+                  {select_program.programType === "Graduate" && (
+                    <DescriptionItem
+                      title="Bachelor Degree"
+                      content={this.DocumentPreview("baDegree")}
+                    />
+                  )}
                 </Col>
               </Row>
               <Row>
                 <Col span={12}>
-                  <DescriptionItem
-                    title="Grade 12 Exam Result"
-                    content={this.DocumentPreview("g12Exam")}
-                  />
+                  {select_program.programType === "Undergraduate" && (
+                    <DescriptionItem
+                      title="Grade 12 Exam Result"
+                      content={this.DocumentPreview("g12Exam")}
+                    />
+                  )}
+                  {select_program.programType === "Graduate" && (
+                    <DescriptionItem
+                      title="Motivation Letter"
+                      content={this.DocumentPreview("motivationLetter")}
+                    />
+                  )}
                 </Col>
               </Row>
             </div>
