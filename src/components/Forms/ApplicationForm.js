@@ -97,7 +97,6 @@ export class Main extends Component {
       );
     } else if (this.state.current == 1) {
       let Docfields;
-      console.log("attttatccched doccccs", this.state.attached_documents);
       if (
         this.state.applicationData.select_program.programType ===
         "Undergraduate"
@@ -106,7 +105,6 @@ export class Main extends Component {
       } else {
         Docfields = fields["Graduate_Upload_Document"];
       }
-      console.log("doccccFields", Docfields);
       this.props.form.validateFieldsAndScroll(Docfields, (err, values) => {
         if (!err) {
           const current = this.state.current + 1;
@@ -114,15 +112,13 @@ export class Main extends Component {
 
           let applicationData = this.state.applicationData;
           let length_docs = Object.keys(this.state.attached_documents).length;
-          applicationData.attached_documents = attached_documents;
-          this.setState({ current });
-          this.setState({ applicationData });
-          // if (length_docs >= 2) {
-          //   this.setState({ current });
-          //   this.setState({ applicationData });
-          // } else {
-          //   console.log("waitttttttt");
-          // }
+          if (length_docs >= 2) {
+            applicationData.attached_documents = attached_documents;
+            this.setState({ current });
+            this.setState({ applicationData });
+          } else {
+            console.log("waitttttttt");
+          }
         }
       });
     } else if (this.state.current == 2) {
