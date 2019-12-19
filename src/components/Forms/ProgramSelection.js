@@ -42,10 +42,13 @@ export class ProgramSelection extends Component {
   }
 
   handleProgramChange = value => {
-    this.setState({
-      fieldOfStudies: fieldOfStudyData[value],
-      secondField: fieldOfStudyData[value][0]
-    });
+    this.setState(
+      {
+        fieldOfStudies: fieldOfStudyData[value],
+        secondField: fieldOfStudyData[value][0]
+      },
+      this.props.form.setFieldsValue({ fieldOfStudy: "" })
+    );
     console.log("from handle program change", value);
     console.log("program type frrrrrrrrrrr", this.state.program_type);
     for (let i = 0; i < this.state.program_type.length; i++) {
