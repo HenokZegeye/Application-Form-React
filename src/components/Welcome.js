@@ -6,7 +6,7 @@ import Logo from "./Logo";
 export class Welcome extends Component {
   render() {
     return (
-      <div>
+      <div className="header">
         <div className="text-center">
           <Logo />
           <h1>Welcome to BITS College's Online Application Service!</h1>

@@ -250,27 +250,33 @@ export class Main extends Component {
   renderStepActions = () => {
     return (
       <div>
-        <div className="steps-action">
-          {this.state.current < steps.length - 2 && (
-            <Button type="primary" onClick={() => this.next()}>
-              Next
-            </Button>
-          )}
-          {this.state.current === steps.length - 2 && (
-            <Button
-              type="primary"
-              // onClick={() => message.success("Processing complete!")}
-              onClick={() => this.form_submit()}
-            >
-              Final Submission
-            </Button>
-          )}
-          {this.state.current > 0 && (
-            <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
-              Previous
-            </Button>
-          )}
-        </div>
+        <Row style={{ float: "right" }}>
+          <div className="steps-action">
+            {this.state.current > 0 && (
+              <Button onClick={() => this.prev()}>Previous</Button>
+            )}
+
+            {this.state.current < steps.length - 2 && (
+              <Button
+                style={{ marginLeft: "100px" }}
+                type="primary"
+                onClick={() => this.next()}
+              >
+                Next
+              </Button>
+            )}
+
+            {this.state.current === steps.length - 2 && (
+              <Button
+                style={{ marginLeft: "100px" }}
+                type="primary"
+                onClick={() => this.form_submit()}
+              >
+                Final Submission
+              </Button>
+            )}
+          </div>
+        </Row>
       </div>
     );
   };

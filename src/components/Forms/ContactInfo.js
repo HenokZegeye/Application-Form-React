@@ -84,7 +84,7 @@ export class ContactInfo extends Component {
                       },
                       {
                         type: "email",
-                        message: "Please follow the correct phone format"
+                        message: "Please follow the correct email format"
                       }
                     ]
                   })(<Input placeholder="Email Address" />)}
