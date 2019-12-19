@@ -260,8 +260,8 @@ export class Main extends Component {
   renderStepActions = () => {
     return (
       <div>
-        <Row style={{ float: "right" }}>
-          <div className="steps-action">
+        <div>
+          <Row>
             {this.state.current > 0 && (
               <Button onClick={() => this.prev()}>Previous</Button>
             )}
@@ -275,7 +275,6 @@ export class Main extends Component {
                 Next
               </Button>
             )}
-
             {this.state.current === steps.length - 2 && (
               <Button
                 style={{ marginLeft: "100px" }}
@@ -285,8 +284,8 @@ export class Main extends Component {
                 Final Submission
               </Button>
             )}
-          </div>
-        </Row>
+          </Row>
+        </div>
       </div>
     );
   };
@@ -295,13 +294,15 @@ export class Main extends Component {
     switch (current) {
       case 0:
         return (
-          <div>
-            <ProgramSelection
-              get_ids={this.get_ids}
-              applicationData={this.state.applicationData}
-              form={this.props.form}
-            />
-          </div>
+          <Row>
+            <Col md="9">
+              <ProgramSelection
+                get_ids={this.get_ids}
+                applicationData={this.state.applicationData}
+                form={this.props.form}
+              />
+            </Col>
+          </Row>
         );
       case 1: {
         if (
@@ -375,18 +376,16 @@ export class Main extends Component {
             </a>
           </h3>
         </div>
-        <Row>
-          <div className="container">
+        <div className="container">
+          <Row>
             <h2>Steps to Apply to BITS College</h2>
-            <Col span={7}>
-              <div>{this.renderSteps(current)}</div>
-            </Col>
-            <Col span={12} offset={5}>
-              <div>{this.renderComponents(current)}</div>
+            <Col lg={{ span: 12 }}>{this.renderSteps(current)}</Col>
+            <Col lg={{ span: 12 }}>
+              {this.renderComponents(current)}
               {this.renderStepActions()}
             </Col>
-          </div>
-        </Row>
+          </Row>
+        </div>
       </div>
     );
   }
