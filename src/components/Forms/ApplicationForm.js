@@ -217,9 +217,11 @@ export class Main extends Component {
       })
       .catch(err => {
         console.log("Error", err);
+        console.log("Error response", err.response);
+        let error_msg = "Email " + err.response.data["email"];
         let statusCode = err.response.status;
         let responseMsg = ResponseCodes.getResponseMessag(statusCode);
-        this.error(responseMsg);
+        this.error(error_msg);
       });
   };
 
