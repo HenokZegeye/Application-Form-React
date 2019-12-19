@@ -22,6 +22,7 @@ const steps = [
 const fields = {
   Select_Program: ["programType", "fieldOfStudy", "modeOfAttendance"],
   Upload_Document: ["highschool_transcript", "grade12_National_Exam_Result"],
+  Graduate_Upload_Document: ["baDegree", "motivationLetter"],
   Contact_Info: [
     "first_name",
     "middle_name",
@@ -95,22 +96,35 @@ export class Main extends Component {
         }
       );
     } else if (this.state.current == 1) {
-      this.props.form.validateFieldsAndScroll(
-        fields["Upload_Document"],
-        (err, values) => {
-          if (!err) {
-            const current = this.state.current + 1;
-            let attached_documents = this.state.attached_documents;
+      let Docfields;
+      console.log("attttatccched doccccs", this.state.attached_documents);
+      if (
+        this.state.applicationData.select_program.programType ===
+        "Undergraduate"
+      ) {
+        Docfields = fields["Upload_Document"];
+      } else {
+        Docfields = fields["Graduate_Upload_Document"];
+      }
+      console.log("doccccFields", Docfields);
+      this.props.form.validateFieldsAndScroll(Docfields, (err, values) => {
+        if (!err) {
+          const current = this.state.current + 1;
+          let attached_documents = this.state.attached_documents;
 
-            let applicationData = this.state.applicationData;
-
-            applicationData.attached_documents = attached_documents;
-
-            this.setState({ current });
-            this.setState({ applicationData });
-          }
+          let applicationData = this.state.applicationData;
+          let length_docs = Object.keys(this.state.attached_documents).length;
+          applicationData.attached_documents = attached_documents;
+          this.setState({ current });
+          this.setState({ applicationData });
+          // if (length_docs >= 2) {
+          //   this.setState({ current });
+          //   this.setState({ applicationData });
+          // } else {
+          //   console.log("waitttttttt");
+          // }
         }
-      );
+      });
     } else if (this.state.current == 2) {
       this.props.form.validateFieldsAndScroll(
         fields["Contact_Info"],
