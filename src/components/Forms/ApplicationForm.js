@@ -109,7 +109,6 @@ export class Main extends Component {
         if (!err) {
           const current = this.state.current + 1;
           let attached_documents = this.state.attached_documents;
-
           let applicationData = this.state.applicationData;
           let length_docs = Object.keys(this.state.attached_documents).length;
           if (length_docs >= 2) {
@@ -117,7 +116,7 @@ export class Main extends Component {
             this.setState({ current });
             this.setState({ applicationData });
           } else {
-            console.log("waitttttttt");
+            alert("please Wait until all the documents uploaded");
           }
         }
       });
