@@ -25,10 +25,10 @@ export class ContactInfo extends Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
-        <h4 className="pt-4">Please Fill in the following Fields</h4>
+        <h4 className="pt-4">Fill in the following Fields</h4>
         <Row type="flex">
           <Col span={24}>
-            <FormItem label="Your Name">
+            <FormItem label="Name">
               {getFieldDecorator("first_name", {
                 rules: [
                   {

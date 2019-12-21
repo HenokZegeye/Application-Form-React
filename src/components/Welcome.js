@@ -11,6 +11,12 @@ export class Welcome extends Component {
           <Logo />
           <h1>Welcome to BITS College's Online Application Service!</h1>
           <h2>
+            To learn more about what we offer visit our{" "}
+            <a href="http://bitscollege.edu.et/" target="_blank">
+              Website
+            </a>
+          </h2>
+          <h2>
             If You Want To Continue Please Click
             <span>
               <Link to="/application-form">

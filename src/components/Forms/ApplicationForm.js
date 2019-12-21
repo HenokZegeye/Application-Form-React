@@ -370,12 +370,6 @@ export class Main extends Component {
       <div>
         <div className="text-center">
           <Logo />
-          <h3>
-            To Learn More About What We Offer Visit Our{" "}
-            <a href="http://bitscollege.edu.et/" target="_blank">
-              Website
-            </a>
-          </h3>
         </div>
         <div className="container">
           <Row>
