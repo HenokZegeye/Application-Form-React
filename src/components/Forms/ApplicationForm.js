@@ -262,9 +262,10 @@ export class Main extends Component {
       <div>
         <div>
           <Row>
-            {this.state.current > 0 && (
-              <Button onClick={() => this.prev()}>Previous</Button>
-            )}
+            {this.state.current < steps.length - 1 &&
+              this.state.current > 0 && (
+                <Button onClick={() => this.prev()}>Previous</Button>
+              )}
 
             {this.state.current < steps.length - 2 && (
               <Button
