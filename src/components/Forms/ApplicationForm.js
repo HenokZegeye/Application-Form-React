@@ -177,7 +177,16 @@ export class Main extends Component {
     LModel.create("applicants", contact_info)
       .then(response => {
         console.log("response from applicant created", response);
-        this.setState({ applicant_id: response.data.id });
+        let credentials = {};
+        credentials = {
+          email: response.data.data.email,
+          password: response.data.random_string,
+          password_confirmation: response.data.random_string
+        };
+        LModel.create("auth", credentials).then(response => {
+          console.log("user registrationsssss", response);
+        });
+        this.setState({ applicant_id: response.data.data.id });
         LModel.create("programs", select_program).then(response => {
           console.log("response from program creation", response);
           this.setState({ program_id: response.data.id });
