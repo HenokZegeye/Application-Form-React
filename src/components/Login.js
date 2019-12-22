@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button, Card, CardBody, CardGroup, Col, Row } from "reactstrap";
 import { Form, Input, message } from "antd";
 import LModel from "../services/api";
+import ClientSession from "../services/client-session";
 import ResponseCodes from "../utils/ResponseCodes";
 import superagent from "superagent";
 const FormItem = Form.Item;
@@ -30,9 +31,14 @@ export class Login extends Component {
             .then(res => {
               if (res.status == 200) {
                 console.log("response from sign in", res);
-              } else {
-                this.props.history.push("/");
-                console.log("here");
+                ClientSession.storeAuth(res.body.data, err => {
+                  if (err) {
+                    this.error("Opps!, unable to login please try again");
+                  } else {
+                    this.props.history.push("/");
+                    console.log("here");
+                  }
+                });
               }
             })
             .catch(err => {
