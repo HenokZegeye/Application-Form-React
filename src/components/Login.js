@@ -3,8 +3,86 @@ import { Link } from "react-router-dom";
 import { Button, Card, CardBody, CardGroup, Col, Row } from "reactstrap";
 import { Form, Input, message } from "antd";
 import LModel from "../services/api";
+import ResponseCodes from "../utils/ResponseCodes";
+import superagent from "superagent";
 const FormItem = Form.Item;
 export class Login extends Component {
+  success = msg => {
+    message.success(msg);
+  };
+
+  error = msg => {
+    message.error(msg);
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (err) {
+        this.error(ResponseCodes.MSG_VALIDATION_ERROR);
+      } else {
+        let payload = values;
+        new Promise((resolve, reject) => {
+          superagent
+            .post(LModel.API_BASE_URL + "auth/sign_in")
+            .send({ email: payload.email, password: payload.password })
+            .set("Accept", "application/json")
+            .then(res => {
+              if (res.status == 200) {
+                console.log("response from sign in", res);
+              } else {
+                this.props.history.push("/");
+                console.log("here");
+              }
+            })
+            .catch(err => {
+              if (!err.response) {
+                this.error("Unable to login, please check your connectioin");
+              } else {
+                this.error(err.response.body.errors);
+              }
+              console.log("errrrr", err.response.body.errors);
+            });
+        });
+      }
+    });
+  };
+
+  //   this.props.form.validateFields((err, values) => {
+  //     if (err) {
+  //       this.error(ResponseCodes.MSG_VALIDATION_ERROR);
+  //     } else {
+  //       let payload = values;
+  //       new Promise((resolve, reject) => {
+  //         superagent
+  //           .post(LModel.API_BASE_URL + "auth/sign_in")
+  //           .send({ email: payload.email, password: payload.password })
+  //           .set("Accept", "application/json")
+  //           .then(res => {
+  //             if (res.status == 200) {
+  //               console.log("response from sign in", res);
+  //             } else {
+  //               this.props.history.push("/");
+  //               console.log("here");
+  //             }
+  //           }).catch(err => {
+  //         // if (!err.response) {
+  //         //   this.error("Unable to login, please check your connectioin");
+  //         // } else {
+  //         //   if (errors.response.body.error) {
+  //         //     if (err.response.body.error.message == "login failed") {
+  //         //       this.error(
+  //         //         "The email or password you entered is incorrect.Please try again"
+  //         //       );
+  //         //     } else this.error(err.response.body.error.message);
+  //         //   }
+  //         // }
+  //         console.log("errrrr", err);
+  //       });
+  //       console.log("values", payload);
+  //       });
+  // };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
