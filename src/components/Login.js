@@ -31,11 +31,11 @@ export class Login extends Component {
             .then(res => {
               if (res.status == 200) {
                 console.log("response from sign in", res);
-                ClientSession.storeAuth(res.body.data, err => {
+                ClientSession.storeAuth(res, err => {
                   if (err) {
                     this.error("Opps!, unable to login please try again");
                   } else {
-                    this.props.history.push("/");
+                    this.props.history.push("/home");
                     console.log("here");
                   }
                 });

@@ -1,5 +1,6 @@
 import * as session from "browser-session-store";
 import Cookies from "universal-cookie";
+var jwt = require("jsonwebtoken");
 
 class ClientSession {
   static authkey = "auth";
@@ -28,7 +29,8 @@ class ClientSession {
         console.error(err);
         func(false);
       } else {
-        if (value == null) {
+        if (value.body.data == null) {
+          console("valuee nulllll");
           // check if loggedin from third party
           if (ClientSession.cookies.get("access_token")) {
             console.log("from third party");
@@ -50,15 +52,18 @@ class ClientSession {
             ClientSession.removeAuth(err => console.log(err));
             func(false);
           }
-        } else if (
-          new Date(value.created).getTime() + value.ttl >=
-          new Date().getTime()
-        ) {
+        } else if (true) {
+          console.log("now", new Date().getTime());
+          console.log(
+            "createddd",
+            parseInt(new Date().getTime()) - value.headers.expiry
+          );
           func(true);
         } else {
           ClientSession.removeAuth(err => console.log(err));
           func(false);
         }
+        console.log("whatt is the value", value);
       }
     });
   };
