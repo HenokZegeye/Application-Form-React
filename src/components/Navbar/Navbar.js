@@ -25,7 +25,7 @@ class Navbar extends Component {
     return (
       <nav className="menuBar">
         <div className="logo">
-          <Link to="/">
+          <Link to="/home">
             <img
               width="100px"
               height="50px"
