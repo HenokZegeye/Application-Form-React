@@ -11,7 +11,7 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/welcome" component={Welcome} exact />
+        <Route path="/" component={Welcome} exact />
         <Route path="/application-form" component={ApplicationForm} exact />
         <Route path="/login" component={Login} exact />
         {/* <Route path="/home" component={Home} exact /> */}

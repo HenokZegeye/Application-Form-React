@@ -40,7 +40,7 @@ export class Home extends Component {
         <Nav />
         <Row>
           <Col style={{ marginTop: "20px" }}>
-            <h3 id="myApp">My Applications</h3>
+            <h3 id="myApp">My Application</h3>
             <Table
               //   onRow={(record, rowIndex) => {
               //     return {
