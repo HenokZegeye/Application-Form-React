@@ -43,6 +43,7 @@ export class Main extends Component {
     loaded: false,
     ids: {},
     applicant_id: "",
+    user_id: "",
     program_id: ""
   };
   success = msg => {
@@ -185,6 +186,7 @@ export class Main extends Component {
         };
         LModel.create("auth", credentials).then(response => {
           console.log("user registrationsssss", response);
+          this.setState({ user_id: response.data.data.id });
         });
         this.setState({ applicant_id: response.data.data.id });
         LModel.create("programs", select_program).then(response => {
@@ -194,7 +196,8 @@ export class Main extends Component {
           enrollmentApplicationData = {
             status: "Inprogress",
             applicant_id: this.state.applicant_id,
-            program_id: this.state.program_id
+            program_id: this.state.program_id,
+            user_id: this.state.user_id
           };
           LModel.create("enrollment_applications", enrollmentApplicationData)
             .then(response => {
