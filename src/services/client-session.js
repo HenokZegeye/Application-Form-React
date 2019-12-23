@@ -29,8 +29,8 @@ class ClientSession {
         console.error(err);
         func(false);
       } else {
-        if (value.body.data == null) {
-          console("valuee nulllll");
+        if (value == null) {
+          // console("valuee nulllll");
           // check if loggedin from third party
           if (ClientSession.cookies.get("access_token")) {
             console.log("from third party");
@@ -69,10 +69,12 @@ class ClientSession {
   };
 
   static getLoggedInUser = cb => {
+    console.log("get logggeddd");
     ClientSession.isLoggedIn(isLoggedIn => {
       if (isLoggedIn) {
         ClientSession.getAuth((err, value) => {
-          return cb(value.userId);
+          console.log("valueeeee", value.body.data.id);
+          return cb(value.body.data.id);
         });
       } else {
         return null;
