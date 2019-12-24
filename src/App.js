@@ -29,6 +29,12 @@ function App() {
           name="UG Application"
           component={ApplicationDetail}
         />
+        <PrivateRouteComponent
+          exact
+          path="/pg-application/:enrollmentApplicationId"
+          name="PG Application"
+          component={ApplicationDetail}
+        />
       </Switch>
     </BrowserRouter>
   );

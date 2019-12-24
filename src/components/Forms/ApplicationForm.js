@@ -177,6 +177,7 @@ export class Main extends Component {
 
     LModel.create("applicants", contact_info)
       .then(response => {
+        this.setState({ applicant_id: response.data.data.id });
         console.log("response from applicant created", response);
         let credentials = {};
         credentials = {
@@ -187,53 +188,53 @@ export class Main extends Component {
         LModel.create("auth", credentials).then(response => {
           console.log("user registrationsssss", response);
           this.setState({ user_id: response.data.data.id });
-        });
-        this.setState({ applicant_id: response.data.data.id });
-        LModel.create("programs", select_program).then(response => {
-          console.log("response from program creation", response);
-          this.setState({ program_id: response.data.id });
-          let enrollmentApplicationData = {};
-          enrollmentApplicationData = {
-            status: "Inprogress",
-            applicant_id: this.state.applicant_id,
-            program_id: this.state.program_id,
-            user_id: this.state.user_id
-          };
-          LModel.create("enrollment_applications", enrollmentApplicationData)
-            .then(response => {
-              console.log("response from program creation", response);
-              let attached_documents = this.state.applicationData
-                .attached_documents;
-              let uploaded = {};
-              for (var key in attached_documents) {
-                uploaded = {
-                  enrollment_application_id: response.data.id,
-                  url: attached_documents[key][0]["url"],
-                  doc_type: attached_documents[key][0]["type"],
-                  uid: attached_documents[key][0]["uid"]
-                };
-                LModel.create("uploadeds", uploaded)
-                  .then(response => {
-                    console.log("response from uploaded ", response);
-                  })
-                  .catch(err => {
-                    console.log("Error", err);
-                    let statusCode = err.response.status;
-                    let responseMsg = ResponseCodes.getResponseMessag(
-                      statusCode
-                    );
-                    this.error(responseMsg);
-                  });
-              }
-              let current = this.state.current + 1;
-              this.setState({ current });
-            })
-            .catch(err => {
-              console.log("Error", err);
-              let statusCode = err.response.status;
-              let responseMsg = ResponseCodes.getResponseMessag(statusCode);
-              this.error(responseMsg);
-            });
+          LModel.create("programs", select_program).then(response => {
+            console.log("response from program creation", response);
+            this.setState({ program_id: response.data.id });
+            let enrollmentApplicationData = {};
+            enrollmentApplicationData = {
+              status: "Inprogress",
+              applicant_id: this.state.applicant_id,
+              program_id: this.state.program_id,
+              user_id: this.state.user_id
+            };
+            LModel.create("enrollment_applications", enrollmentApplicationData)
+              .then(response => {
+                console.log("response from program creation", response);
+                let attached_documents = this.state.applicationData
+                  .attached_documents;
+                let uploaded = {};
+                for (var key in attached_documents) {
+                  uploaded = {
+                    enrollment_application_id: response.data.id,
+                    url: attached_documents[key][0]["url"],
+                    doc_type: attached_documents[key][0]["type"],
+                    uid: attached_documents[key][0]["uid"],
+                    original_name: attached_documents[key][0]["name"]
+                  };
+                  LModel.create("uploadeds", uploaded)
+                    .then(response => {
+                      console.log("response from uploaded ", response);
+                    })
+                    .catch(err => {
+                      console.log("Error", err);
+                      let statusCode = err.response.status;
+                      let responseMsg = ResponseCodes.getResponseMessag(
+                        statusCode
+                      );
+                      this.error(responseMsg);
+                    });
+                }
+                let current = this.state.current + 1;
+                this.setState({ current });
+              })
+              .catch(err => {
+                console.log("Error", err);
+                let statusCode = err.response.status;
+                let responseMsg = ResponseCodes.getResponseMessag(statusCode);
+                this.error(responseMsg);
+              });
+          });
         });
       })
       .catch(err => {
