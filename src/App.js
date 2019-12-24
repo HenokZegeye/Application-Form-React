@@ -6,6 +6,8 @@ import PrivateRouteComponent from "./privateRoute";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Home from "./components/Home";
+import Preview from "./components/Forms/Preview";
+import ApplicationDetail from "./components/Forms/ApplicationDetail";
 
 function App() {
   return (
@@ -20,6 +22,12 @@ function App() {
           path="/home"
           name="Home"
           component={Home}
+        />
+        <PrivateRouteComponent
+          exact
+          path="/ug-application/:enrollmentApplicationId"
+          name="UG Application"
+          component={ApplicationDetail}
         />
       </Switch>
     </BrowserRouter>

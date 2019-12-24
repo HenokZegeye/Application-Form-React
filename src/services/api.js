@@ -18,7 +18,7 @@ export default class LModel {
   }
 
   static find(pluralName, id, filter) {
-    let url = API_BASE_URL + pluralName;
+    let url = API_BASE_URL + pluralName + "/" + id;
 
     if (filter) url += "?" + filter;
 
