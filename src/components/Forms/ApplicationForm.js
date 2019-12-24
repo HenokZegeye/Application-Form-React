@@ -82,17 +82,23 @@ export class Main extends Component {
         fields["Select_Program"],
         (err, values) => {
           if (!err) {
-            const current = this.state.current + 1;
-            const select_program = this.props.form.getFieldsValue(
-              fields.Select_Program
-            );
-            let applicationData = this.state.applicationData;
+            if (this.state.ids.program_type_id != undefined) {
+              const current = this.state.current + 1;
+              const select_program = this.props.form.getFieldsValue(
+                fields.Select_Program
+              );
+              let applicationData = this.state.applicationData;
 
-            this.setState({ select_program }, () => {
-              applicationData.select_program = this.state.select_program;
-              this.setState({ applicationData });
-              this.setState({ current });
-            });
+              this.setState({ select_program }, () => {
+                applicationData.select_program = this.state.select_program;
+                this.setState({ applicationData });
+                this.setState({ current });
+              });
+            } else {
+              alert(
+                "There is a connection problem, please, refresh your browser & Try again"
+              );
+            }
           }
         }
       );

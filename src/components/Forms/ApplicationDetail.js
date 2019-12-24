@@ -86,7 +86,7 @@ export class ApplicationDetail extends Component {
                     document_id: doc.id
                   });
                   this.setState({ baDegreeInfo: list });
-                } else if (doc.doc_type === "g12Exam") {
+                } else if (doc.doc_type === "G12Exam") {
                   list.push({
                     uid: doc.uid,
                     name: doc.original_name,
@@ -95,7 +95,7 @@ export class ApplicationDetail extends Component {
                     document_id: doc.id
                   });
                   this.setState({ g12NationalExamInfo: list });
-                } else if (doc.doc_type === "transcript") {
+                } else if (doc.doc_type === "Transcript") {
                   list.push({
                     uid: doc.uid,
                     name: doc.original_name,
