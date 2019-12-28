@@ -13,6 +13,12 @@ class RightMenu extends Component {
       redirectToLogin: false
     };
   }
+  componentDidMount() {
+    // console.log(
+    //   "currrrrrrrrrrrrrrrrrent user from right navbar",
+    //   this.props.current_applicant
+    // );
+  }
   onClickLogout = () => {
     ClientSession.removeAuth(err => {
       if (!err) {
@@ -21,6 +27,7 @@ class RightMenu extends Component {
     });
   };
   render() {
+    const current_applicant = this.props.current_applicant;
     if (this.state.redirectToLogin) {
       return <Redirect to={"/login"} />;
     }
@@ -40,7 +47,7 @@ class RightMenu extends Component {
           title={
             <span>
               <Icon type="user" />
-              <span style={{ fontSize: "14pt" }}>User</span>
+              <span style={{ fontSize: "14pt" }}>{current_applicant}</span>
             </span>
           }
         >

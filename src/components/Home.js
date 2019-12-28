@@ -23,7 +23,8 @@ export class Home extends Component {
   state = {
     myApplications: [],
     enterApplicationDetail: false,
-    applicationDetailUrl: null
+    applicationDetailUrl: null,
+    current_applicant: ""
   };
   onRowClicked = record => {
     let application = record;
@@ -41,10 +42,10 @@ export class Home extends Component {
     }
   };
   componentDidMount() {
-    ClientSession.getLoggedInUser(userId => {
-      if (userId) {
-        console.log("loggged in user idddddd", userId);
-        let filter = `user_id=${userId}`;
+    ClientSession.getLoggedInUser(user => {
+      if (user.id) {
+        console.log("loggged in user idddddd", user);
+        let filter = `user_id=${user.id}`;
         LModel.findAll("enrollment_applications", filter)
           .then(response => {
             console.log(response.data[0]);
@@ -61,7 +62,23 @@ export class Home extends Component {
               status: response.data[0].status
             });
             console.log("iteemmm", item);
-            this.setState({ myApplications: item });
+            this.setState({ myApplications: item }, () => {
+              const current_applicant = this.state.myApplications[0].detail
+                .applicant;
+              const current_applicant_full_name =
+                current_applicant.first_name +
+                " " +
+                current_applicant.middle_name;
+              this.setState(
+                { current_applicant: current_applicant_full_name },
+                () => {
+                  console.log(
+                    "current applicant from state",
+                    this.state.current_applicant
+                  );
+                }
+              );
+            });
           })
           .catch(err => {
             console.log("Err ==> ", err);
@@ -75,9 +92,12 @@ export class Home extends Component {
       return <Redirect to={this.state.applicationDetailUrl} />;
     }
     console.log("from render myapplication", this.state.myApplications);
+    console.log("from render current applicant", this.state.current_applicant);
     return (
       <div>
-        <Nav />
+        {this.state.current_applicant && (
+          <Nav current_applicant={this.state.current_applicant} />
+        )}
         <Row>
           <Col style={{ marginTop: "20px" }}>
             <h3 id="myApp">My Application</h3>

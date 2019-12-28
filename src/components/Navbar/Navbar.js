@@ -9,6 +9,12 @@ class Navbar extends Component {
     current: "mail",
     visible: false
   };
+  componentDidMount() {
+    console.log(
+      "current applicant from navvvvvv bar",
+      this.props.current_applicant
+    );
+  }
   showDrawer = () => {
     this.setState({
       visible: true
@@ -39,7 +45,7 @@ class Navbar extends Component {
             <LeftMenu />
           </div> */}
           <div className="rightMenu">
-            <RightMenu />
+            <RightMenu current_applicant={this.props.current_applicant} />
           </div>
           <Button className="barsMenu" type="primary" onClick={this.showDrawer}>
             <span className="barsBtn" />

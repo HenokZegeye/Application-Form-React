@@ -40,7 +40,8 @@ export class ApplicationDetail extends Component {
     transcriptInfo: [],
     g12NationalExamInfo: [],
     baDegreeInfo: [],
-    motivationLetterInfo: []
+    motivationLetterInfo: [],
+    current_applicant: ""
   };
   componentDidMount() {
     ClientSession.getLoggedInUser(user => {
@@ -62,6 +63,15 @@ export class ApplicationDetail extends Component {
                     .field_of_study
                 });
               });
+              const current_applicant =
+                applicationData.applicant.first_name +
+                " " +
+                applicationData.applicant.middle_name;
+              console.log(
+                "current applicant from component did mount",
+                current_applicant
+              );
+              this.setState({ current_applicant });
             });
             console.log(
               "applicatoin data of applicant from state",
@@ -195,7 +205,9 @@ export class ApplicationDetail extends Component {
     const field_of_study = this.state.field_of_study;
     return (
       <div>
-        <Nav />
+        {this.state.current_applicant && (
+          <Nav current_applicant={this.state.current_applicant} />
+        )}
         <div className="container">
           <Row type={"flex"}>
             <Col span={12}>
