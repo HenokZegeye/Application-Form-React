@@ -73,8 +73,9 @@ class ClientSession {
     ClientSession.isLoggedIn(isLoggedIn => {
       if (isLoggedIn) {
         ClientSession.getAuth((err, value) => {
-          console.log("valueeeee", value.body.data.id);
-          return cb(value.body.data.id);
+          console.log("valueeeee", value.body.data);
+          return cb(value.body.data);
+          // return cb(value.body.data.id);
         });
       } else {
         return null;

@@ -43,9 +43,9 @@ export class ApplicationDetail extends Component {
     motivationLetterInfo: []
   };
   componentDidMount() {
-    ClientSession.getLoggedInUser(userId => {
-      if (userId) {
-        let enroll_filter = `user_id=${userId}`;
+    ClientSession.getLoggedInUser(user => {
+      if (user.id) {
+        let enroll_filter = `user_id=${user.id}`;
         LModel.findAll("enrollment_applications", enroll_filter)
           .then(response => {
             let applicationData = response.data[0];

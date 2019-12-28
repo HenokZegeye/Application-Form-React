@@ -43,6 +43,7 @@ export class Home extends Component {
   componentDidMount() {
     ClientSession.getLoggedInUser(userId => {
       if (userId) {
+        console.log("loggged in user idddddd", userId);
         let filter = `user_id=${userId}`;
         LModel.findAll("enrollment_applications", filter)
           .then(response => {
