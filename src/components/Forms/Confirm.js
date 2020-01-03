@@ -9,9 +9,9 @@ export class Confirm extends Component {
         <h3 className="pl-3">Thank You For Applying To Our College! </h3>
         <Card style={{ width: 500 }}>
           <div style={{ fontSize: "20px", textAlign: "center" }}>
-            You will be receiving an email from any second now. It will include
-            your credentials for BITS's college's portal.Through which you can
-            edit, track the progress of and receive messages pertainning to your
+            You will be receiving an email from us shortly. It will include your
+            credentials for BITS college's portal, through which you can edit,
+            track the progress of and receive messages pertainning to your
             application.
           </div>
         </Card>
