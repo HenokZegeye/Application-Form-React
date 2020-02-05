@@ -178,9 +178,6 @@ export class Main extends Component {
       field_of_study_id: field_of_study_id
     };
 
-    console.log("contact info form submit", contact_info);
-    console.log("select program form submit", select_program);
-
     LModel.create("applicants", contact_info)
       .then(response => {
         this.setState({ applicant_id: response.data.data.id });

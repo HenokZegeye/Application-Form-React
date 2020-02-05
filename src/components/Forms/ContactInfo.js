@@ -48,7 +48,7 @@ export class ContactInfo extends Component {
                 rules: [
                   {
                     required: true,
-                    message: "Please enter father name"
+                    message: "Please enter Father name"
                   },
                   {
                     type: "string",
@@ -63,7 +63,7 @@ export class ContactInfo extends Component {
                 rules: [
                   {
                     required: true,
-                    message: "Please enter grand father name"
+                    message: "Please enter Grandfather name"
                   },
                   {
                     type: "string",

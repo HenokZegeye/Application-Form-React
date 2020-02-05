@@ -12,7 +12,7 @@ export class Welcome extends Component {
           <h1>Welcome to BITS College's Online Application Service!</h1>
           <h2>
             To learn more about what we offer visit our{" "}
-            <a href="http://bitscollege.edu.et/" target="_blank">
+            <a href="http://www.mksaddis.com/bitsnew/" target="_blank">
               Website
             </a>
           </h2>
