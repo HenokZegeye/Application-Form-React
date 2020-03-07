@@ -1,34 +1,34 @@
-import React, { Component } from "react";
-import { Steps, Button, message, Form, Col, Row } from "antd";
-import LModel from "../../services/api";
-import ResponseCodes from "../../utils/ResponseCodes";
-import Logo from "../Logo";
-import ProgramSelection from "./ProgramSelection";
-import ContactInfo from "./ContactInfo";
-import DocumentsUpload from "./DocumentsUpload";
-import Preview from "./Preview";
-import Confirm from "./Confirm";
-import GraduateDocumentsUpload from "./GraduateDocumentsUpload";
+import React, { Component } from 'react';
+import { Steps, Button, message, Form, Col, Row } from 'antd';
+import LModel from '../../services/api';
+import ResponseCodes from '../../utils/ResponseCodes';
+import Logo from '../Logo';
+import ProgramSelection from './ProgramSelection';
+import ContactInfo from './ContactInfo';
+import DocumentsUpload from './DocumentsUpload';
+import Preview from './Preview';
+import Confirm from './Confirm';
+import GraduateDocumentsUpload from './GraduateDocumentsUpload';
 const { Step } = Steps;
 
 const steps = [
-  "Select Program",
-  "Upload Document",
-  "Add Contact Information",
-  "Preview Application",
-  "Confirm"
+  'Select Program',
+  'Upload Document',
+  'Add Contact Information',
+  'Preview Application',
+  'Confirm'
 ];
 
 const fields = {
-  Select_Program: ["programType", "fieldOfStudy", "modeOfAttendance"],
-  Upload_Document: ["highschool_transcript", "grade12_National_Exam_Result"],
-  Graduate_Upload_Document: ["baDegree", "motivationLetter"],
+  Select_Program: ['programType', 'fieldOfStudy', 'modeOfAttendance'],
+  Upload_Document: ['highschool_transcript', 'grade12_National_Exam_Result'],
+  Graduate_Upload_Document: ['baDegree', 'motivationLetter'],
   Contact_Info: [
-    "first_name",
-    "middle_name",
-    "last_name",
-    "email",
-    "phone_number"
+    'first_name',
+    'middle_name',
+    'last_name',
+    'email',
+    'phone_number'
   ]
 };
 
@@ -42,9 +42,9 @@ export class Main extends Component {
     contact_info: {},
     loaded: false,
     ids: {},
-    applicant_id: "",
-    user_id: "",
-    program_id: ""
+    applicant_id: '',
+    user_id: '',
+    program_id: ''
   };
   success = msg => {
     message.success(msg);
@@ -54,16 +54,16 @@ export class Main extends Component {
   };
 
   onUpdate = attached_documents => {
-    console.log("attacheedddd docs from application form", attached_documents);
+    console.log('attacheedddd docs from application form', attached_documents);
     this.setState({ attached_documents });
     console.log(
-      "attached docs state from application form...",
+      'attached docs state from application form...',
       this.state.attached_documents
     );
   };
 
   get_ids = (type, id) => {
-    console.log("typpppe", type);
+    console.log('typpppe', type);
     let ids = this.state.ids;
     ids[type] = id;
     let applicationData = this.state.applicationData;
@@ -72,14 +72,14 @@ export class Main extends Component {
       this.setState({ applicationData });
     });
 
-    console.log("type", type);
-    console.log("id", id);
+    console.log('type', type);
+    console.log('id', id);
   };
 
   next() {
     if (this.state.current == 0) {
       this.props.form.validateFieldsAndScroll(
-        fields["Select_Program"],
+        fields['Select_Program'],
         (err, values) => {
           if (!err) {
             if (this.state.ids.program_type_id != undefined) {
@@ -96,7 +96,7 @@ export class Main extends Component {
               });
             } else {
               alert(
-                "There is a connection problem, please, refresh your browser & Try again"
+                'There is a connection problem, please, refresh your browser & Try again'
               );
             }
           }
@@ -106,11 +106,11 @@ export class Main extends Component {
       let Docfields;
       if (
         this.state.applicationData.select_program.programType ===
-        "Undergraduate"
+        'Undergraduate'
       ) {
-        Docfields = fields["Upload_Document"];
+        Docfields = fields['Upload_Document'];
       } else {
-        Docfields = fields["Graduate_Upload_Document"];
+        Docfields = fields['Graduate_Upload_Document'];
       }
       this.props.form.validateFieldsAndScroll(Docfields, (err, values) => {
         if (!err) {
@@ -123,13 +123,13 @@ export class Main extends Component {
             this.setState({ current });
             this.setState({ applicationData });
           } else {
-            alert("please Wait until all the documents uploaded");
+            alert('please Wait until all the documents uploaded');
           }
         }
       });
     } else if (this.state.current == 2) {
       this.props.form.validateFieldsAndScroll(
-        fields["Contact_Info"],
+        fields['Contact_Info'],
         (err, values) => {
           if (!err) {
             const current = this.state.current + 1;
@@ -141,7 +141,7 @@ export class Main extends Component {
               applicationData.contact_info = this.state.contact_info;
               this.setState({ applicationData }, () => {
                 this.setState({ current });
-                console.log("application data from contact", this.state);
+                console.log('application data from contact', this.state);
               });
             });
           }
@@ -155,15 +155,15 @@ export class Main extends Component {
   }
 
   finalStep() {
-    console.log("currentttttttt", this.state.current);
+    console.log('currentttttttt', this.state.current);
     const current = this.state.current + 1;
     this.setState({ current });
-    console.log("currentttttttt updated", this.state.current);
+    console.log('currentttttttt updated', this.state.current);
   }
 
   form_submit = () => {
     console.log(
-      "application form from form submit",
+      'application form from form submit',
       this.state.applicationData
     );
     const applicationData = this.state.applicationData;
@@ -178,49 +178,49 @@ export class Main extends Component {
       field_of_study_id: field_of_study_id
     };
 
-    LModel.create("applicants", contact_info)
+    LModel.create('applicants', contact_info)
       .then(response => {
         this.setState({ applicant_id: response.data.data.id });
-        console.log("response from applicant created", response);
+        console.log('response from applicant created', response);
         let credentials = {};
         credentials = {
           email: response.data.data.email,
           password: response.data.random_string,
           password_confirmation: response.data.random_string
         };
-        LModel.create("auth", credentials).then(response => {
-          console.log("user registrationsssss", response);
+        LModel.create('auth', credentials).then(response => {
+          console.log('user registrationsssss', response);
           this.setState({ user_id: response.data.data.id });
-          LModel.create("programs", select_program).then(response => {
-            console.log("response from program creation", response);
+          LModel.create('programs', select_program).then(response => {
+            console.log('response from program creation', response);
             this.setState({ program_id: response.data.id });
             let enrollmentApplicationData = {};
             enrollmentApplicationData = {
-              status: "Inprogress",
+              status: 'Inprogress',
               applicant_id: this.state.applicant_id,
               program_id: this.state.program_id,
               user_id: this.state.user_id
             };
-            LModel.create("enrollment_applications", enrollmentApplicationData)
+            LModel.create('enrollment_applications', enrollmentApplicationData)
               .then(response => {
-                console.log("response from program creation", response);
+                console.log('response from program creation', response);
                 let attached_documents = this.state.applicationData
                   .attached_documents;
                 let uploaded = {};
                 for (var key in attached_documents) {
                   uploaded = {
                     enrollment_application_id: response.data.id,
-                    url: attached_documents[key][0]["url"],
-                    doc_type: attached_documents[key][0]["type"],
-                    uid: attached_documents[key][0]["uid"],
-                    original_name: attached_documents[key][0]["name"]
+                    url: attached_documents[key][0]['url'],
+                    doc_type: attached_documents[key][0]['type'],
+                    uid: attached_documents[key][0]['uid'],
+                    original_name: attached_documents[key][0]['name']
                   };
-                  LModel.create("uploadeds", uploaded)
+                  LModel.create('uploadeds', uploaded)
                     .then(response => {
-                      console.log("response from uploaded ", response);
+                      console.log('response from uploaded ', response);
                     })
                     .catch(err => {
-                      console.log("Error", err);
+                      console.log('Error', err);
                       let statusCode = err.response.status;
                       let responseMsg = ResponseCodes.getResponseMessag(
                         statusCode
@@ -232,7 +232,7 @@ export class Main extends Component {
                 this.setState({ current });
               })
               .catch(err => {
-                console.log("Error", err);
+                console.log('Error', err);
                 let statusCode = err.response.status;
                 let responseMsg = ResponseCodes.getResponseMessag(statusCode);
                 this.error(responseMsg);
@@ -241,9 +241,9 @@ export class Main extends Component {
         });
       })
       .catch(err => {
-        console.log("Error", err);
-        console.log("Error response", err.response);
-        let error_msg = "Email " + err.response.data["email"];
+        console.log('Error', err);
+        console.log('Error response', err.response);
+        let error_msg = 'Email ' + err.response.data['email'];
         let statusCode = err.response.status;
         let responseMsg = ResponseCodes.getResponseMessag(statusCode);
         this.error(error_msg);
@@ -251,7 +251,7 @@ export class Main extends Component {
   };
 
   onChange = current => {
-    console.log("onChange:", current);
+    console.log('onChange:', current);
     this.setState({ current });
   };
 
@@ -265,7 +265,7 @@ export class Main extends Component {
           className="mt-5"
         >
           {steps.map(item => (
-            <Step style={{ height: "100px" }} key={item} title={item} />
+            <Step style={{ height: '100px' }} key={item} title={item} />
           ))}
         </Steps>
       </Col>
@@ -284,7 +284,7 @@ export class Main extends Component {
 
             {this.state.current < steps.length - 2 && (
               <Button
-                style={{ marginLeft: "100px" }}
+                style={{ marginLeft: '100px' }}
                 type="primary"
                 onClick={() => this.next()}
               >
@@ -293,7 +293,7 @@ export class Main extends Component {
             )}
             {this.state.current === steps.length - 2 && (
               <Button
-                style={{ marginLeft: "100px" }}
+                style={{ marginLeft: '100px' }}
                 type="primary"
                 onClick={() => this.form_submit()}
               >
@@ -322,7 +322,7 @@ export class Main extends Component {
         );
       case 1: {
         if (
-          this.state.applicationData.select_program.programType === "Graduate"
+          this.state.applicationData.select_program.programType === 'Graduate'
         ) {
           return (
             <div>
@@ -388,8 +388,18 @@ export class Main extends Component {
         </div>
         <div className="container">
           <Row>
-            <h2>Steps to Apply to BITS College</h2>
-            <Col lg={{ span: 12 }}>{this.renderSteps(current)}</Col>
+            {current === 4 && (
+              <img
+                src={process.env.PUBLIC_URL + '/graduation cap.webp'}
+                alt="graduate cap"
+              />
+            )}
+            {current !== 4 && (
+              <div>
+                <h2>Steps to Apply to BITS College</h2>
+                <Col lg={{ span: 12 }}>{this.renderSteps(current)}</Col>
+              </div>
+            )}
             <Col lg={{ span: 12 }}>
               {this.renderComponents(current)}
               {this.renderStepActions()}
