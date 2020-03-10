@@ -390,7 +390,7 @@ export class Main extends Component {
           <Row>
             {current === 4 && (
               <img
-                src={process.env.PUBLIC_URL + '/graduation cap.webp'}
+                src={process.env.PUBLIC_URL + '/graduation-cap.jpg'}
                 alt="graduate cap"
               />
             )}
